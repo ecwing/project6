@@ -55,7 +55,11 @@ class Api extends Component {
     this.getGarbage();
   }
 
-
+ decodeHtml = (query) => {
+  const text = document.createElement();
+  text.innerHTML = query;
+  return text.value;
+}
 
   render() {
     // let searchInfo = this.returnInfo
@@ -77,7 +81,7 @@ class Api extends Component {
           return (
             <div className="searchResults">
               <h2>{result.title}</h2>
-              <>{result.body}</>
+              <p>{this.decodeHtml(result.body)}</p>
             </div>
           )
         })
