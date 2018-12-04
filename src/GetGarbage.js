@@ -7,7 +7,8 @@ class Api extends Component {
         super()
         this.state = {
             returnInfo: [],
-            search: "" 
+            search: "",
+            user: null, 
         }
     }
     componentDidMount() {
@@ -20,8 +21,19 @@ class Api extends Component {
                 description: this.state.keyword
             }
         })
-        .then(res => {
-            console.log('show us data', res)
+        .then(res => {            
+            const newConstok = res.data.filter(item => {
+              return item.keywords.includes("cup")
+            })
+          console.log(newConstok);
+            // console.log('show us data', res.data)
+            const newArray = res.data.map((item) => {
+              let keyWords = item.keywords 
+              let category = item.category
+              let title = item.title
+              let body = item.body 
+            });
+
             this.setState({
                 returnInfo: res.data
             })
@@ -35,11 +47,13 @@ class Api extends Component {
         console.log('test', this.state.search)
     }
 
+
+
     render() {
-        let searchInfo = this.returnInfo
-        searchInfo = searchInfo.filter((info) => {
-            return info[1].keyword.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-        })
+        // let searchInfo = this.returnInfo
+        // searchInfo = searchInfo.filter((info) => {
+        //     return info[1].keyword.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+        // })
         return (
             <div>
                 <p>testing</p>
@@ -49,7 +63,6 @@ class Api extends Component {
             </div>
         )
     }
-
 
 }
 export default Api;
