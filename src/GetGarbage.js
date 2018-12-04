@@ -21,10 +21,9 @@ class Api extends Component {
             }
         })
         .then(res => {
-            console.log('show us data', res)
-            this.setState({
-                returnInfo: res.data
-            })
+            // console.log('show us data', res)
+            let newArray = res.data.map((res.data.keywords) === "battery");
+            console.log(newArray);
         })
     }
 
@@ -36,18 +35,18 @@ class Api extends Component {
     }
 
     render() {
-        let searchInfo = this.returnInfo
-        searchInfo = searchInfo.filter((info) => {
-            return info[1].keyword.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-        })
-        return (
-            <div>
-                <p>testing</p>
-                <input type="text"
-                    value={this.state.search}
-                    onChange={this.updateSearch.bind(this)} />
-            </div>
-        )
+        // let searchInfo = this.returnInfo
+        // searchInfo = searchInfo.filter((info) => {
+        //     return info[1].keyword.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+        // })
+        return( null)
+            // <div>
+            //     <p>testing</p>
+            //     <input type="text"
+            //         value={this.state.search}
+            //         onChange={this.updateSearch.bind(this)} />
+            // </div>
+        
     }
 
 
