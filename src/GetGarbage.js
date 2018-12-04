@@ -23,28 +23,28 @@ class Api extends Component {
         })
         .then(res => {            
             const newConstok = res.data.filter(item => {
-              return item.keywords.includes("cup")
+              return item.keywords.includes(this.state.search)
             })
           console.log(newConstok);
-            // console.log('show us data', res.data)
-            const newArray = res.data.map((item) => {
-              let keyWords = item.keywords 
-              let category = item.category
-              let title = item.title
-              let body = item.body 
             });
 
             this.setState({
-                returnInfo: res.data
+                // returnInfo: res.data
             })
-        })
+        }
+    
+
+    handleSearch = (e) => {
+        
+        this.setState({
+          [e.target.id]: e.target.value
+          })
+        console.log('test', this.state.search)
     }
 
-    updateSearch = (e) => {
-        this.setState({
-            search: e.target.value
-        })
-        console.log('test', this.state.search)
+    handleSubmit = (e) => {
+      e.preventDefault();
+      this.getGarbage();
     }
 
 
@@ -57,9 +57,12 @@ class Api extends Component {
         return (
             <div>
                 <p>testing</p>
-                <input type="text"
-                    value={this.state.search}
-                    onChange={this.updateSearch.bind(this)} />
+                  <form onSubmit={this.handleSubmit}>
+                  <input type="text"
+                      id="search"
+                      value={this.state.search}
+                      onChange={this.handleSearch} />
+                </form>
             </div>
         )
     }
