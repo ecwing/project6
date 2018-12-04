@@ -7,7 +7,8 @@ class Api extends Component {
         super()
         this.state = {
             returnInfo: [],
-            search: "" 
+            search: "",
+            user: null, 
         }
     }
     componentDidMount() {
@@ -20,35 +21,51 @@ class Api extends Component {
                 description: this.state.keyword
             }
         })
-        .then(res => {
-            // console.log('show us data', res)
-            let newArray = res.data.map((res.data.keywords) === "battery");
-            console.log(newArray);
-        })
-    }
+        .then(res => {            
+            const newConstok = res.data.filter(item => {
+              return item.keywords.includes(this.state.search)
+            })
+          console.log(newConstok);
+            });
 
-    updateSearch = (e) => {
+            this.setState({
+                // returnInfo: res.data
+            })
+        }
+    
+
+    handleSearch = (e) => {
+        
         this.setState({
-            search: e.target.value
-        })
+          [e.target.id]: e.target.value
+          })
         console.log('test', this.state.search)
     }
+
+    handleSubmit = (e) => {
+      e.preventDefault();
+      this.getGarbage();
+    }
+
+
 
     render() {
         // let searchInfo = this.returnInfo
         // searchInfo = searchInfo.filter((info) => {
         //     return info[1].keyword.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
         // })
-        return( null)
-            // <div>
-            //     <p>testing</p>
-            //     <input type="text"
-            //         value={this.state.search}
-            //         onChange={this.updateSearch.bind(this)} />
-            // </div>
-        
+        return (
+            <div>
+                <p>testing</p>
+                  <form onSubmit={this.handleSubmit}>
+                  <input type="text"
+                      id="search"
+                      value={this.state.search}
+                      onChange={this.handleSearch} />
+                </form>
+            </div>
+        )
     }
-
 
 }
 export default Api;
