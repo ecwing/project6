@@ -35,106 +35,113 @@ class Api extends Component {
   constructor() {
     super()
     this.state = {
-      returnInfo: [],
-      search: "",
-      user: null,
-      keywords: "",
-      category: "",
-      body: "",
-      title: "",
+      keywordList: [],
+      APIdata: [],
+      searchInput: "",
+      submitSearch: []
     }
   }
   componentDidMount() {
-    
+    this.getKeywordList()
   }
 
-  getGarbage = () => {
-    axios.get(" https://secure.toronto.ca/cc_sr_v1/data/swm_waste_wizard_APR?limit=1000", {
-      params: {
-        description: this.state.keyword,
-      },
-    })
+
+  //function that MAKES call from API and creates an array of strings that have no repeats and no spaces
+  getKeywordList = () => {
+    axios.get(" https://secure.toronto.ca/cc_sr_v1/data/swm_waste_wizard_APR?limit=1000", )
       .then(res => {
-        const superArray = res.data.map(item => {
+
+        //on then, map through each result, and return the strings inside each (keyword: "") and make an array of them
+        const apiReturn = res.data;
+        const keywordArray = res.data.map(item => {
           return item.keywords;
         })
-        const superString = superArray.toString(); //superString is a single string of comman separated values. 
 
-        const allTheKeyWords = superString.split(','); //makes a new array 
+        //turn the keywordArray into a giant string of comma seperated values
+        const superString = keywordArray.toString(); //superString is a single string of comman separated values. 
+
+        //makes a new Array, by seperating the superstring at ever 'comma', each individually split word becomes an index in the array 
+        const keywordArraySeparated = superString.split(','); 
         
-        const allTheKeyWords2 = allTheKeyWords.map(item => { // allTheKeyWords2 is an array of keywords
+        //making a new Array that has removed the blank space off of the returned strings that had an empty spae
+        const allTheKeyWords2 = keywordArraySeparated.map(item => { 
           return item.trimStart();
         })
 
-        console.log(allTheKeyWords2);
+        //turning Array of trimmed keywords into a SET to remove all duplicate strings
+        const superSet1 = new Set(allTheKeyWords2)
 
-        const superSet1 = new Set(allTheKeyWords2) //turns it into a set and removes duplicates
-        console.log(superSet1);
-
-   
-
-        const searchRes = res.data.filter(item => {
-          return item.keywords.includes(this.state.search)
-        })
-        // console.log(searchRes);
+        //turning SET back into an Array and setting state with it
         this.setState({
-          returnInfo: searchRes
+          APIdata: apiReturn,
+          keywordList: Array.from(superSet1)
         })
       });
+    }
 
-  }
+    // const searchRes = res.data.filter(item => {
+    //   return item.keywords.includes(this.state.search)
+    // })
+    // // console.log(searchRes);
+    // this.setState({
+    //   returnInfo: searchRes
+    // })
 
 
   handleSearch = (e) => {
-
     this.setState({
       [e.target.id]: e.target.value
     })
   
   }
 
+
   handleSubmit = (e) => {
     e.preventDefault();
-    this.getGarbage();
+    const userSearch = this.state.APIdata.filter(item => {
+      return item.keywords.includes(this.state.searchInput.toLowerCase())
+    })
+
+    console.log(userSearch);
+    this.setState({
+      submitSearch: userSearch
+    })
   }
 
   decodeHtml = (query) => {
     const text = document.createElement("textarea");
-    return text.innerHTML = query;
+    text.innerHTML = query
+    let regex1 = text.value.replace(/<(.|\n)*?>/g, '')
+    let regex2 = regex1.replace(/(&ldquo;(?!\s*&ldquo;).*?)&rdquo;/)
+    let CLEANSTRING = regex2.replace(/&nbsp;/g, ' ')
+    return CLEANSTRING
   }
 
 
+
   render() {
-    // let searchInfo = this.returnInfo
-    // searchInfo = searchInfo.filter((info) => {
-    //     return info[1].keyword.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-    // })
     return (
       <div>
         <p>testing</p>
         <form onSubmit={this.handleSubmit}>
           <input type="text"
-            id="search"
-            value={this.state.search}
+            id="searchInput"
+            value={this.state.searchInput}
             onChange={this.handleSearch} />
           <input type="submit" value="Garbage Day"/>
         </form>
         
-        {this.state.returnInfo.map(result => {
+        {this.state.submitSearch.map(result => {
           return (
-            <div className="searchResults">
+            <div key={result.id} className="searchResults">
               <h2>{result.title}</h2>
-              <p>{this.decodeHtml(`${result.body}`)}</p>
+              <>{this.decodeHtml(`${result.body}`)}</>
             </div>
           )
-        })
-          
-        }
-
-       
-      </div>
-    )
-  }
+        })}
+        </div> )
+      }
+      
 
 }
 export default Api;
