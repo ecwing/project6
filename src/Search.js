@@ -1,3 +1,32 @@
+// user types in a word into the search bar -- this is stored in state as "search" done
+// look for the presence of that word in the "keywords" of all the objects -- this is done and the matching object(s) are stored in state in an array called "returnInfo"
+// map through all the returnInfo objects and find the exact match, store that in "finalSearch"
+// then, take the index of the object that contains that searchWord 
+// then, display the search word as the title
+//display the category as an image (blue bin, green etc)
+//display the body of the object as the content.  
+
+//map thorugh all the objects an
+
+//super string --> array --> set --> list of searchable keywords --> then send that back as the API call --> then the single object ** do this one bc if the person wants to do another search, they CAN . otherwise they will have to hard reload the page  ** error handling will be easier on this. 
+//pre-loader f
+
+// option one is that we don't care 
+// option two is that we offer a list of suggestions 
+// on componentDidmount, take all the keywords and run a method to turn a string of comma separated values into an array 
+// then take a all the strings of all the key words, and then we make one giant array 
+// remove duplicates -- a "set" doesn't allow repeats 
+// show the user all 4 
+// or -- load the page and concatenate a mega list of key words 
+// and then create a searchable drop-down and auto-complete for a specific keyword
+// user chooses whcih they want and then we can search it 
+// OR run a search, and grab a list of keywords and "did you mean"
+// auto complete -- recommend that we include a modal that shows them EVERYTHING  
+// easter eggs ~~~ 
+
+
+
+
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -16,7 +45,7 @@ class Api extends Component {
     }
   }
   componentDidMount() {
-
+    
   }
 
   getGarbage = () => {
@@ -24,16 +53,30 @@ class Api extends Component {
       params: {
         description: this.state.keyword,
       },
-      headers: {
-        // 'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
     })
       .then(res => {
+        const superArray = res.data.map(item => {
+          return item.keywords;
+        })
+        const superString = superArray.toString(); //superString is a single string of comman separated values. 
+
+        const allTheKeyWords = superString.split(','); //makes a new array 
+        
+        const allTheKeyWords2 = allTheKeyWords.map(item => { // allTheKeyWords2 is an array of keywords
+          return item.trimStart();
+        })
+
+        console.log(allTheKeyWords2);
+
+        const superSet1 = new Set(allTheKeyWords2) //turns it into a set and removes duplicates
+        console.log(superSet1);
+
+   
+
         const searchRes = res.data.filter(item => {
           return item.keywords.includes(this.state.search)
         })
-        console.log(searchRes);
+        // console.log(searchRes);
         this.setState({
           returnInfo: searchRes
         })
@@ -55,6 +98,10 @@ class Api extends Component {
     this.getGarbage();
   }
 
+  decodeHtml = (query) => {
+    const text = document.createElement("textarea");
+    return text.innerHTML = query;
+  }
 
 
   render() {
@@ -77,7 +124,7 @@ class Api extends Component {
           return (
             <div className="searchResults">
               <h2>{result.title}</h2>
-              <>{result.body}</>
+              <p>{this.decodeHtml(`${result.body}`)}</p>
             </div>
           )
         })
