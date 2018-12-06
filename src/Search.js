@@ -25,8 +25,6 @@
 // easter eggs ~~~ 
 
 
-
-
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -42,9 +40,33 @@ class Api extends Component {
     }
   }
   componentDidMount() {
+
     this.getKeywordList()
   }
 
+  filteredSearch = (item) => {
+    // Code block below converts the keywords property to an array with each index as a keyword - this code block WORKS
+    const mappedKeywords = this.state.APIdata.map(item => {
+      item.keywords = item.keywords.split(',').map(word => word.trim());
+      return item;
+    });
+    console.log(mappedKeywords)
+
+    //trying to map over new said array to try and extract entire object from said keyword
+    const matchedKeyword = mappedKeywords.filter(item => {
+      
+      return item.keywords.includes(this.state.searchInput)
+    console.log(item.keywords)
+    console.log(this.state.searchInput)
+    })
+  
+    console.log(matchedKeyword)
+    
+  }
+
+
+
+  
 
   //function that MAKES call from API and creates an array of strings that have no repeats and no spaces
   getKeywordList = () => {
@@ -56,6 +78,10 @@ class Api extends Component {
         const keywordArray = res.data.map(item => {
           return item.keywords;
         })
+
+
+
+
 
         //turn the keywordArray into a giant string of comma seperated values
         const superString = keywordArray.toString(); //superString is a single string of comman separated values. 
@@ -101,11 +127,12 @@ class Api extends Component {
     const userSearch = this.state.APIdata.filter(item => {
       return item.keywords.includes(this.state.searchInput.toLowerCase())
     })
-
-    console.log(userSearch);
+    
+    // console.log(userSearch);
     this.setState({
       submitSearch: userSearch
     })
+    this.filteredSearch(this.state.userInput)
   }
 
   decodeHtml = (query) => {
