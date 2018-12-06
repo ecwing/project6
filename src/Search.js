@@ -27,6 +27,16 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import Downshift from 'downshift'
+// import { create } from 'domain';
+
+let items = [
+  { value: 'apple' },
+  { value: 'pear' },
+  { value: 'orange' },
+  { value: 'grape' },
+  { value: 'banana' },
+]
 
 
 class Api extends Component {
@@ -40,7 +50,7 @@ class Api extends Component {
     }
   }
   componentDidMount() {
-
+    console.log("test")
     this.getKeywordList()
   }
 
@@ -56,21 +66,14 @@ class Api extends Component {
     const matchedKeyword = mappedKeywords.filter(item => {
       
       return item.keywords.includes(this.state.searchInput)
-    console.log(item.keywords)
-    console.log(this.state.searchInput)
     })
-  
     console.log(matchedKeyword)
-    
   }
-
-
-
   
 
   //function that MAKES call from API and creates an array of strings that have no repeats and no spaces
   getKeywordList = () => {
-    axios.get(" https://secure.toronto.ca/cc_sr_v1/data/swm_waste_wizard_APR?limit=1000", )
+    axios.get("https://secure.toronto.ca/cc_sr_v1/data/swm_waste_wizard_APR?limit=1000", )
       .then(res => {
 
         //on then, map through each result, and return the strings inside each (keyword: "") and make an array of them
@@ -78,14 +81,12 @@ class Api extends Component {
         const keywordArray = res.data.map(item => {
           return item.keywords;
         })
-
-
-
-
-
+        
+        
         //turn the keywordArray into a giant string of comma seperated values
         const superString = keywordArray.toString(); //superString is a single string of comman separated values. 
-
+        
+        
         //makes a new Array, by seperating the superstring at ever 'comma', each individually split word becomes an index in the array 
         const keywordArraySeparated = superString.split(','); 
         
@@ -93,14 +94,23 @@ class Api extends Component {
         const allTheKeyWords2 = keywordArraySeparated.map(item => { 
           return item.trimStart();
         })
-
+        
         //turning Array of trimmed keywords into a SET to remove all duplicate strings
         const superSet1 = new Set(allTheKeyWords2)
+        let cleanArray = Array.from(superSet1) 
+          
+        //take each index in our Array and turn it into an individual object that has a specified KEY that we decide. For each
+        
+        let cleanArray2 = cleanArray.map(item => {
+            return {
+              name: item
+            };
+        });
 
         //turning SET back into an Array and setting state with it
         this.setState({
           APIdata: apiReturn,
-          keywordList: Array.from(superSet1)
+          keywordList: cleanArray2
         })
       });
     }
@@ -144,23 +154,83 @@ class Api extends Component {
     return CLEANSTRING
   }
 
+  //function that turns keywords into array of seperate keywords\
+  //NEEDS WORK
+  splitString = (keyword) => {
+    let answers = [];
+    let userKeyword = keyword
+    let solution = keyword.split(',');
+    let match = solution.map(each => {
+      if (each == userKeyword) {
+        answers.push(keyword) 
+      }});
+    console.log(answers)
+  };
+  ////////////////////////////////////////
+
 
 
   render() {
     return (
       <div>
         <p>testing</p>
-        <form onSubmit={this.handleSubmit}>
+        {/* <form onSubmit={this.handleSubmit}>
           <input type="text"
             id="searchInput"
             value={this.state.searchInput}
             onChange={this.handleSearch} />
           <input type="submit" value="Garbage Day"/>
-        </form>
-        
+        </form> */}
+      
+        <Downshift
+          onChange={selection => alert(`You selected ${selection.name}`)}
+          itemToString={item => (item ? item.name : '')}
+        >
+          {({
+            getInputProps,
+            getItemProps,
+            getLabelProps,
+            isOpen,
+            inputValue,
+            highlightedIndex,
+            selectedItem,
+          }) => (
+              <div>
+                <label {...getLabelProps()}>Find some Garbage</label>
+                <input {...getInputProps()} />
+                {isOpen ? (
+                  <div>
+                    {this.state.keywordList
+                      .filter(item => !inputValue || item.name.includes(inputValue))
+                      .map((item, index) => (
+                        <div
+                          {...getItemProps({
+                            key: item.name,
+                            index,
+                            item,
+                            style: {
+                              backgroundColor:
+                                highlightedIndex === index ? 'lightgray' : 'white',
+                              fontWeight: selectedItem === item ? 'bold' : 'normal',
+                            },
+                          })}
+                        >
+                          {item.name}
+                        </div>
+                      ))}
+                  </div>
+                ) : null}
+              </div>
+            )}
+        </Downshift>
+                      
+            
+            
+            
         {this.state.submitSearch.map(result => {
           return (
             <div key={result.id} className="searchResults">
+              <h2>{this.splitString(`${result.keywords}`)}</h2>
               <h2>{result.title}</h2>
               <>{this.decodeHtml(`${result.body}`)}</>
             </div>
