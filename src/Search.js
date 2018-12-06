@@ -117,6 +117,21 @@ class Api extends Component {
     return CLEANSTRING
   }
 
+  //function that turns keywords into array of seperate keywords\
+  //NEEDS WORK
+  splitString = (keyword) => {
+    let answers = [];
+    let userKeyword = keyword
+    let solution = keyword.split(',');
+    let match = solution.map(each => {
+      if (each == userKeyword) {
+        answers.push(keyword) 
+      }});
+    console.log(answers)
+  }
+  ////////////////////////////////////////
+  
+
 
 
   render() {
@@ -134,6 +149,7 @@ class Api extends Component {
         {this.state.submitSearch.map(result => {
           return (
             <div key={result.id} className="searchResults">
+              <h2>{this.splitString(`${result.keywords}`)}</h2>
               <h2>{result.title}</h2>
               <>{this.decodeHtml(`${result.body}`)}</>
             </div>
