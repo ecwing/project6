@@ -47,3 +47,28 @@ form .goalsForm {
   display: flex;
   flex-direction: column;
 }
+
+/* //DROP DOWN LIST STYLES */
+input:focus {
+  outline: none;
+}
+
+.dropdown {
+  margin: 0 auto;
+  width: 200px;
+  height: 500px;
+  overflow-y: auto;
+  border: 1px solid lightblue;
+}
+.dropdown:active{
+  border: 1px solid darkblue;
+}
+.dropdown-item {
+  border: 1px solid grey;
+  padding: 10px 5px;
+}
+
+
+svg {
+  float: right;
+}
