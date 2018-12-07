@@ -8,6 +8,7 @@ class UserProfile extends Component {
    constructor(){
       super()
       this.state = {
+         user: null,
          form: {}
       }
    }
@@ -17,7 +18,8 @@ class UserProfile extends Component {
    	render(){
       return(
          <div>
-            <h1>POOOOOOOOO</h1>
+            <h1>Welcome {this.props.user}!</h1>
+
          </div>
       )
    }
