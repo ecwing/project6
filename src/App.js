@@ -30,7 +30,6 @@ class App extends Component {
       userGoals: {},
       metGoal: null,
       numberOfBags: 0
-
     }
   };
 
