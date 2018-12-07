@@ -4,21 +4,10 @@ import firebase from "firebase";
 import "./App.css";
 import UserProfile from "./UserProfile";
 import Api from "./Search";
-
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyBZvw10kdECra6-eHH5u_hOQbBNo8MNmNc",
-  authDomain: "garbagesorter-hy.firebaseapp.com",
-  databaseURL: "https://garbagesorter-hy.firebaseio.com",
-  projectId: "garbagesorter-hy",
-  storageBucket: "garbagesorter-hy.appspot.com",
-  messagingSenderId: "852729370805"
-};
-firebase.initializeApp(config);
+import Dashboard from "./Dashboard";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
-
 
 class App extends Component {
   constructor(){
@@ -62,6 +51,7 @@ class App extends Component {
     this.setState({
       newGoal: ""
     });
+
     // push data to firebase here
     //Create a unique reference in the Firebase database that is connected to this specific User's ID
     const dbRef = firebase.database().ref(`/${this.state.user.uid}`)
@@ -133,7 +123,12 @@ class App extends Component {
 
           <Route path="/userprofile" component={UserProfile} />
 
-          <div className="dashboard">
+          <Dashboard 
+          user={this.state.user}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          /> 
+          {/* <div className="dashboard">
             {
               this.state.user ? (
               <main>
@@ -195,7 +190,9 @@ class App extends Component {
               <h4>You must be logged in to see this page</h4>
               )
             }
-          </div>
+          </div> */}
+
+
         </div>
       </Router>
     </div>
