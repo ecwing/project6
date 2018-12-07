@@ -108,7 +108,7 @@ class Api extends Component {
     return (
       <div>
         <Downshift
-          onChange={selection => this.handleSubmit && this.setState({
+          onChange={selection => this.setState({
             searchInput: selection.name,
           })}        
           itemToString={item => (item ? item.name : '')}
@@ -119,6 +119,8 @@ class Api extends Component {
             getLabelProps,
             isOpen,
             inputValue,
+            clearSelection,
+
             highlightedIndex,
             selectedItem,
           }) => (
@@ -126,6 +128,10 @@ class Api extends Component {
                 <form onSubmit={this.handleSubmit}>
                   <label {...getLabelProps()}className="visuallyHidden">Search how to handle garbage here</label>
                   <input
+                  {...getInputProps({
+                    isOpen,
+                    Placeholder: "Search"
+                  })}
                     type="text"
                     id="searchInput"
                     value={this.state.searchInput}
@@ -135,24 +141,42 @@ class Api extends Component {
                   type="Submit"
                   defaultValue="Garbage Day"/>
                 </form>
+                {selectedItem ? (
+                  //placing an SVG of a black X trying to make it ON click clear search using clearSelection.method and it errors out.
+                 <svg
+                  viewBox="0 0 20 20"
+                  preserveAspectRatio="none"
+                  width={12}
+                  stroke="#000"
+                  strokeWidth="1.1px"
+                  onClick={clearSelection}
+                  aria-label="clear selection">
+
+                  <path d="M1,1 L19,19" />
+                  <path d="M19,1 L1,19" />
+                </svg>          
+                ) : (null)
+                    // <ControllerButton {...getToggleButtonProps()}>
+                    //   <ArrowIcon isOpen={isOpen} />
+                    // </ControllerButton>
+                  }
                 {isOpen ? (
-                  <div>
+                  <div className="dropdown">
                     {this.state.keywordList
                       .filter(item => !inputValue || item.name.includes(inputValue))
                       .map((item, index) => (
-                        <div
+                        <div className="dropdown-item"
                           {...getItemProps({
                             key: item.name,
                             index,
                             item,
                             style: {
                               backgroundColor:
-                                highlightedIndex === index ? 'lightgray' : 'white',
+                              highlightedIndex === index ? 'lightgray' : 'white',
                               fontWeight: selectedItem === item ? 'bold' : 'normal',
                             },
-                          })}
-                        >
-                          {item.name}
+                          })}>
+                            {item.name}
                         </div>
                       ))}
                   </div>
