@@ -72,3 +72,8 @@ input:focus {
 svg {
   float: right;
 }
+
+/* //DASHBOARD STYLES */
+.PieApp {
+  height: 500px;
+}

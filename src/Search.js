@@ -15,7 +15,7 @@ class Api extends Component {
     }
   }
   componentDidMount() {
-    console.log("test")
+    console.log("Search.JS MOUNTED")
     this.getKeywordList()
   }  
 
@@ -124,7 +124,7 @@ class Api extends Component {
             highlightedIndex,
             selectedItem,
           }) => (
-              <div>
+              <div className="dropdaddy">
                 <form onSubmit={this.handleSubmit}>
                   <label {...getLabelProps()}className="visuallyHidden">Search how to handle garbage here</label>
                   <input

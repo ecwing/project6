@@ -19,7 +19,6 @@ class App extends Component {
       userGoals: {},
       metGoal: null,
       numberOfBags: 0
-
     }
   };
 
@@ -56,6 +55,7 @@ class App extends Component {
     //Create a unique reference in the Firebase database that is connected to this specific User's ID
     const dbRef = firebase.database().ref(`/${this.state.user.uid}`)
     dbRef.push(newUserGoal);
+    
   };
 
   handleChange = e => {
