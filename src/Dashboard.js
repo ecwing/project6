@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
 import { BrowserRouter as Router, NavLink, Link } from "react-router-dom";
+import './App.css';
 import firebase from "./firebase";
-
+import Responsivepie from "./ResponsivePie";
 
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
-this.dbRef = firebase.database().ref(); 
 
 
 
@@ -16,35 +15,83 @@ class Dashboard extends Component {
     super()
     this.state = {
       greenBags: 0,
-      garbageBags: 0,
-      recyclingBags: 0,
-      metGoal: false,
-      newGoal: "",
-      userGoals: ""
+      garbageBags: 10,
+      blueBags: 0
     }
   }
+  
 
   ComponentDidMount() {
     //atach event listener to firebase
-    const dbRef = firebase.database().ref(`/${this.props.user.uid}`); 
+    const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
 
-    dbRef.on('value', (snapshot) => {
-
+    this.dbRef.on('value', (snapshot) => {
       this.setState({
-        garbageBags: snapshot.val()
+        garbageBags: snapshot.val(),
+        greenBags: snapshot.val(),
+        blueBags: snapshot.val()
       });
     });
   }
 
+
+
   addBag = (e) => {
     e.preventDefault();
-    let userClick = firebase.database().ref(e.target.id)
-    let bagValue = Number(e.target.id) + 1
-    
-    console.log(bagValue);
+    //created a database called CURRENT unique to each user
+    const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
 
-    this.dbRef.push(bagValue) 
+    let userClick = firebase.database().ref(e.target.id)
+    let bagValue = Number(e.target.value) + 1
+    
+    //sets state
+    this.setState({
+      [e.target.id]: bagValue
+    })
+
+    //updates current Firebase branch
+    dbRef.update({
+      [e.target.id]: bagValue
+    }) 
     // console.log(this.state.garbageBags);
+  }
+
+  saveWeek = (e) => {
+    e.preventDefault();
+
+    const dbRef = firebase.database().ref(`/${this.props.user.uid}/past`);
+
+    let pastWeek = {
+      greenBags: this.state.greenBags,
+      garbageBags: this.state.garbageBags,
+      blueBags: this.state.blueBags
+    }
+
+    console.log(pastWeek)
+
+    this.setState({
+      greenBags: 0,
+      garbageBags: 0,
+      blueBags: 0
+    })
+
+    //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
+    let firebaseArray;
+     dbRef.once('value', (snapshot) => {
+      firebaseArray = snapshot.val();
+    }).then(()=>{
+      console.log(firebaseArray)
+      firebaseArray.push(pastWeek)
+      console.log(firebaseArray)
+      dbRef.update(firebaseArray)
+    })
+
+    // console.log(firebaseArray)
+
+    //.push pastWeek into firebaseArray and then update firebase
+
+    
+    // dbRef.update(newFireBaseArray;
   }
 
 
@@ -57,40 +104,41 @@ class Dashboard extends Component {
             <main>
               <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
 
-              <form className="goalsForm" onSubmit={this.props.handleSubmit}>
+              <form className="goalsForm" onSubmit={this.saveWeek}>
 
                 <label htmlFor="">Number of Garbage Bags</label>
                 <button
-                  id={this.state.garbageBags}
+                  id="garbageBags"
                   data-bag={this.state.garbageBags}
-                  name="numberOfBags"
                   type="number"
-                  value={this.garbageBags}
+                  value={this.state.garbageBags}
                   onClick={this.addBag} >
-                  </button>
+                  GARBAGE {this.state.garbageBags}</button>
 
-                <label>
-                  Number of compost bags: </label>
+                <label>Number of compost bags: </label>
                     <button
-                    id={this.state.greenBags}
+                    id="greenBags"
                     data-bag={this.state.greenBags}
-                    name="numberOfBags"
                     type="number"
-                    value={this.greenBags}
+                    value={this.state.greenBags}
                   onClick={this.addBag} >
-                    </button>
+                  GREENBIN {this.state.greenBags}</button>
                
 
                 <label>Number of recycling bags:</label>
                 <button
-                  id={this.state.recyclingBags}
-                  data-bag={this.state.recyclingBags}
-                  name="numberOfBags"
+                  id="blueBags"
+                  data-bag={this.state.blueBags}
                   type="number"
-                  value={this.recyclingBags}
+                  value={this.state.blueBags}
                   onClick={this.addBag} >
-                </button>
+                  BLUE BIN {this.state.blueBags}</button>
+
+                  <input type="submit"/>
               </form>
+              <div className="weeklyPie">
+                <Responsivepie state={this.state}/>
+              </div>
 
 
             </main>
