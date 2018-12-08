@@ -13,7 +13,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      user:null,
+      user: null,
       newGoal: "",
       newPattern: "",
       userGoals: {},
@@ -122,12 +122,11 @@ class App extends Component {
 
 
           <Route path="/userprofile" component={UserProfile} />
-
-          <Dashboard 
+          {this.state.user ? <Dashboard 
           user={this.state.user}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          /> 
+          /> : <div className="dashboard"> please Sign in to see user dashboard</div>}
           {/* <div className="dashboard">
             {
               this.state.user ? (

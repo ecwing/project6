@@ -8,30 +8,47 @@ import Responsivepie from "./ResponsivePie";
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
 
-
-
 class Dashboard extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
+      user: this.props.user,
       greenBags: 0,
-      garbageBags: 10,
+      garbageBags: 0,
       blueBags: 0
     }
   }
-  
 
-  ComponentDidMount() {
-    //atach event listener to firebase
+  componentDidMount() {
+
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
+    // dbRef.on('value', (snapshot) => {
 
-    this.dbRef.on('value', (snapshot) => {
-      this.setState({
-        garbageBags: snapshot.val(),
-        greenBags: snapshot.val(),
-        blueBags: snapshot.val()
-      });
-    });
+    //   const firebaseState = snapshot.val()
+    //   console.log(firebaseState);
+    //   console.log(firebase.sta)
+
+    //   this.setState({
+    //     garbageBags: firebaseState.garbageBags,
+    //     greenBags: firebaseState.greenBags,
+    //     blueBags: firebaseState.blueBags
+    //   });
+
+    //   });
+
+    // let firebaseState;
+    // dbRef.once('value', (snapshot) => {
+    //   firebaseState = snapshot.val();
+    //   console.log(firebaseState)
+
+    // }).then(() => {
+    //   // this.setState({
+    //   //   garbageBags: firebaseState.garbageBags,
+    //   //   greenBags: firebaseState.greenBags,
+    //   //   blueBags: firebaseState.blueBags
+    //   // });
+
+    // })
   }
 
 
@@ -43,22 +60,19 @@ class Dashboard extends Component {
 
     let userClick = firebase.database().ref(e.target.id)
     let bagValue = Number(e.target.value) + 1
-    
     //sets state
     this.setState({
       [e.target.id]: bagValue
     })
-
     //updates current Firebase branch
     dbRef.update({
       [e.target.id]: bagValue
     }) 
-    // console.log(this.state.garbageBags);
+    console.log(this.props.user.uid);
   }
 
   saveWeek = (e) => {
     e.preventDefault();
-
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/past`);
 
     let pastWeek = {
@@ -66,8 +80,6 @@ class Dashboard extends Component {
       garbageBags: this.state.garbageBags,
       blueBags: this.state.blueBags
     }
-
-    console.log(pastWeek)
 
     this.setState({
       greenBags: 0,
@@ -80,18 +92,9 @@ class Dashboard extends Component {
      dbRef.once('value', (snapshot) => {
       firebaseArray = snapshot.val();
     }).then(()=>{
-      console.log(firebaseArray)
       firebaseArray.push(pastWeek)
-      console.log(firebaseArray)
       dbRef.update(firebaseArray)
     })
-
-    // console.log(firebaseArray)
-
-    //.push pastWeek into firebaseArray and then update firebase
-
-    
-    // dbRef.update(newFireBaseArray;
   }
 
 
@@ -137,7 +140,9 @@ class Dashboard extends Component {
                   <input type="submit"/>
               </form>
               <div className="weeklyPie">
-                <Responsivepie state={this.state}/>
+                <Responsivepie garbageBags={this.state.garbageBags}
+                  greenBags={this.state.greenBags}
+                  blueBags={this.state.blueBags}/>
               </div>
 
 

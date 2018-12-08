@@ -7,14 +7,24 @@ import './App.css';
 
 
 class Responsivepie extends Component {
-  constructor(){
-  super()
+  constructor(props){
+  super(props)
     this.state = {
-      greenBags: 0,
+      greenBags: this.props.greenBags,
       garbageBags: this.props.garbageBags,
-      blueBags: 0
+      blueBags: this.props.blueBags
     }
   }
+
+  // componentDidMount() {
+  //   let pieState = {
+  //     greenBags: this.state.greenBags,
+  //     garbageBags: this.state.garbageBags,
+  //     blueBags: this.state.blueBags
+  //   }
+
+  //   console.log(pieState)
+  // }
 
    render() {
       return (
@@ -24,19 +34,19 @@ class Responsivepie extends Component {
                   {
                      "id": "garbage",
                      "label": "garbage",
-                     "value": this.state.garbageBags,
+                     "value": this.props.garbageBags,
                      "color": "hsl(0, 100%, 0%)"
                   },
                   {
                      "id": "blueBin",
                      "label": "blueBin",
-                     "value": 10,
+                     "value": this.props.blueBags,
                      "color": "hsl(243, 70%, 50%)"
                   },
                   {
                      "id": "greenBin",
                      "label": "greenBin",
-                     "value": 3,
+                     "value": this.props.greenBags,
                      "color": "hsl(316, 70%, 50%)"
                   },
                ]}
