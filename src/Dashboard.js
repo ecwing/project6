@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
 import { BrowserRouter as Router, NavLink, Link } from "react-router-dom";
+import './App.css';
 import firebase from "./firebase";
+import Responsivepie from "./ResponsivePie";
 
 
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -135,6 +136,9 @@ class Dashboard extends Component {
 
                   <input type="submit"/>
               </form>
+              <div className="weeklyPie">
+                <Responsivepie state={this.state}/>
+              </div>
 
 
             </main>
