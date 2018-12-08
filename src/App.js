@@ -13,7 +13,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      user:null,
+      user: null,
       newGoal: "",
       newPattern: "",
       userGoals: {},
@@ -120,77 +120,14 @@ class App extends Component {
 
           <h6>Above Route</h6>
 
-
           <Route path="/userprofile" component={UserProfile} />
 
-          <Dashboard 
+          {/* //rendering the dashboard if user is signed in, if not rendering an empty dashboard that prompts user to sign in */}
+          {this.state.user ? <Dashboard 
           user={this.state.user}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          /> 
-          {/* <div className="dashboard">
-            {
-              this.state.user ? (
-              <main>
-                <h4>{this.state.user ? `Welcome to your dashboard ${this.state.user.displayName}!` : null } </h4>
-
-                <form ClassName="goalsForm" onSubmit={this.handleSubmit}>
-                  
-                  <label htmlFor="">Personal Goal for the week: </label>
-                  <input
-                    type="text"
-                    value={this.state.newGoal}
-                    id="newGoal"
-                    onChange={this.handleChange}
-                  />
-
-                  <label>
-                    Goal Met:
-                    <input
-                      name="metGoal"
-                      type="checkbox"
-                      checked={this.state.metGoal}
-                      onChange={this.handleChange} />
-                  </label>
-
-                  <label>
-                    Number of bags:
-                    <input
-                      name="numberOfBags"
-                      type="number"
-                      value={this.state.numberOfBags}
-                      onChange={this.handleChange} />
-                  </label>                  
-
-                  <label>Number of Coffee cups thrown Out:</label>
-                    <input
-                      name="numberOfCups"
-                      type="number"
-                      value={this.state.numberOfCups}
-                      onChange={this.handleChange} />
-                  <input 
-                    type="submit" />
-                </form>
-
-
-                <section className="entries">
-                  {Object.entries(this.state.userGoals).map(goal => {
-                    return (
-                      <article key={goal[0]}>
-                        <p>Written on: {goal[1].date}</p>
-                        <p>{goal[1].body}</p>
-                        <p>{goal[1].body2}</p>
-                      </article>
-                    );
-                  })}
-                </section>
-              </main>
-              )
-              : (
-              <h4>You must be logged in to see this page</h4>
-              )
-            }
-          </div> */}
+          /> : <div className="dashboard"> please Sign in to see user dashboard</div>}
 
 
         </div>

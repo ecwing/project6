@@ -77,3 +77,6 @@ svg {
 .PieApp {
   height: 500px;
 }
+.dashboard {
+  border:2px solid black;
+}
