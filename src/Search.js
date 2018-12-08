@@ -15,7 +15,7 @@ class Api extends Component {
     }
   }
   componentDidMount() {
-    console.log("test")
+    console.log("Search.JS MOUNTED")
     this.getKeywordList()
   }  
 

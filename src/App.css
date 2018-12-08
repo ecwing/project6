@@ -53,12 +53,10 @@ input:focus {
   outline: none;
 }
 
-.dropdaddy{
-  margin: 0 auto;
-  width: 30%;
-}
 .dropdown {
-  height: 20rem;
+  margin: 0 auto;
+  width: 200px;
+  height: 500px;
   overflow-y: auto;
   border: 1px solid lightblue;
 }
