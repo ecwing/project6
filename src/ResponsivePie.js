@@ -16,16 +16,6 @@ class Responsivepie extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   let pieState = {
-  //     greenBags: this.state.greenBags,
-  //     garbageBags: this.state.garbageBags,
-  //     blueBags: this.state.blueBags
-  //   }
-
-  //   console.log(pieState)
-  // }
-
    render() {
       return (
          <div className="PieApp">
