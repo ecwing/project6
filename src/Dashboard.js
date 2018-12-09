@@ -3,6 +3,7 @@ import { BrowserRouter as Router, NavLink, Link } from "react-router-dom";
 import './App.css';
 import firebase from "./firebase";
 import Responsivepie from "./ResponsivePie";
+import swal from 'sweetalert';
 
 
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -82,53 +83,61 @@ class Dashboard extends Component {
 
   saveWeek = (e) => {
     e.preventDefault();
-    // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
 
-    const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    swal({
+      title: "Are you sure?",
+      text: "submit garbage stats",
+      buttons: true,
+    }).then((submit) => {
+        // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
+        if(submit) {
+        const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
 
-    const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
+        const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
 
 
-    let pastWeek = {
-      greenBags: this.state.greenBags,
-      garbageBags: this.state.garbageBags,
-      blueBags: this.state.blueBags
-    }
-    
+        let pastWeek = {
+          greenBags: this.state.greenBags,
+          garbageBags: this.state.garbageBags,
+          blueBags: this.state.blueBags
+        }
 
-    // let pastWeek = [{
-    //   greenBags: 10,
-    //   garbageBags: 10,
-    //   blueBags: 10
-    // }]
 
-    let newWeek = {
-      greenBags: 0,
-      garbageBags: 0,
-      blueBags: 0
-    }
+        // let pastWeek = [{
+        //   greenBags: 10,
+        //   garbageBags: 10,
+        //   blueBags: 10
+        // }]
 
-    this.setState({
-      greenBags: 0,
-      garbageBags: 0,
-      blueBags: 0
-    })
+        let newWeek = {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        }
 
-    // dbRefpast.push({something: 0, otherthing: 2})
+        this.setState({
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        })
 
-    //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
-    let firebaseArray;
-     dbRefPast.once('value', (snapshot) => {
-      firebaseArray = snapshot.val();
-      console.log(firebaseArray)
-    }).then(()=>{
-      // console.log(pastWeek)
-      firebaseArray.push(pastWeek)
-      dbRefPast.update(firebaseArray)
-      dbRefCurrent.update(newWeek)
-    })
-  }
+        // dbRefpast.push({something: 0, otherthing: 2})
 
+        //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
+        let firebaseArray;
+        dbRefPast.once('value', (snapshot) => {
+          firebaseArray = snapshot.val();
+          console.log(firebaseArray)
+        }).then(() => {
+          // console.log(pastWeek)
+          firebaseArray.push(pastWeek)
+          dbRefPast.update(firebaseArray)
+          dbRefCurrent.update(newWeek)
+        });
+      } else {
+        //
+      }
+})}
 
 
   render(){
@@ -171,10 +180,16 @@ class Dashboard extends Component {
 
                   <input type="submit"/>
               </form>
+
               <div className="weeklyPie">
-                <Responsivepie garbageBags={this.state.garbageBags}
+                
+          
+                <Responsivepie        
+                  garbageBags={this.state.garbageBags}
                   greenBags={this.state.greenBags}
-                  blueBags={this.state.blueBags}/>
+                  blueBags={this.state.blueBags}
+                  />
+      
               </div>
 
 
