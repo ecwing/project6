@@ -14,6 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      lineGraph: null,
       user: this.props.user,
       greenBags: 0,
       garbageBags: 0,
@@ -22,8 +23,8 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-
     const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+  
     dbRefpast.on('value', (snapshot) => {
       if (!snapshot.exists()) {
         dbRefpast.update([{
@@ -31,12 +32,20 @@ class Dashboard extends Component {
           garbageBags: 0,
           blueBags: 0}])
       }
+      //create variable of the snapshot of PAST node and set it as State
+      const firebaseStatePast = snapshot.val();
+      console.log(firebaseStatePast)
+      this.setState({
+        lineGraph: firebaseStatePast
+      })
     })
+
 
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
     dbRef.on('value', (snapshot) => {
 
       const firebaseState = snapshot.val() || {}
+  
 
       this.setState({
         garbageBags: firebaseState.garbageBags,
@@ -45,20 +54,6 @@ class Dashboard extends Component {
       });
 
       });
-
-    // let firebaseState;
-    // dbRef.once('value', (snapshot) => {
-    //   firebaseState = snapshot.val();
-    //   console.log(firebaseState)
-
-    // }).then(() => {
-    //   // this.setState({
-    //   //   garbageBags: firebaseState.garbageBags,
-    //   //   greenBags: firebaseState.greenBags,
-    //   //   blueBags: firebaseState.blueBags
-    //   // });
-
-    // })
   }
 
 
@@ -191,7 +186,7 @@ class Dashboard extends Component {
                   />
       
               </div>
-              <Responsiveline/>
+              <Responsiveline lineGraph={this.state.lineGraph}/>
 
 
             </main>
