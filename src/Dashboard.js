@@ -21,6 +21,16 @@ class Dashboard extends Component {
 
   componentDidMount() {
 
+    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    dbRefpast.on('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        dbRefpast.update([{
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0}])
+      }
+    })
+
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
     dbRef.on('value', (snapshot) => {
 
@@ -74,15 +84,17 @@ class Dashboard extends Component {
     e.preventDefault();
     // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
 
-    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
 
     const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
+
 
     let pastWeek = {
       greenBags: this.state.greenBags,
       garbageBags: this.state.garbageBags,
       blueBags: this.state.blueBags
     }
+    
 
     // let pastWeek = [{
     //   greenBags: 10,
@@ -106,14 +118,13 @@ class Dashboard extends Component {
 
     //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
     let firebaseArray;
-     dbRefpast.once('value', (snapshot) => {
+     dbRefPast.once('value', (snapshot) => {
       firebaseArray = snapshot.val();
-      // console.log(firebaseArray)
+      console.log(firebaseArray)
     }).then(()=>{
       // console.log(pastWeek)
       firebaseArray.push(pastWeek)
-      // console.log("hi promise", firebaseArray)
-      dbRefpast.update(firebaseArray)
+      dbRefPast.update(firebaseArray)
       dbRefCurrent.update(newWeek)
     })
   }
