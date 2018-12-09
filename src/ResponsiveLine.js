@@ -202,7 +202,7 @@ class Responsiveline extends Component {
                enableDots={true}
                dotSize={10}
                dotColor="inherit:darker(0.3)"
-               yScale={1}
+               // yScale={1}
                dotBorderWidth={2}
                dotBorderColor="#ffffff"
                enableDotLabel={true}

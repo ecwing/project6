@@ -133,7 +133,6 @@ class App extends Component {
 
         </div>
       </Router>
-      <Responsiveline/>
     </div>
     );
   }
