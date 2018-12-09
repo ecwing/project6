@@ -3,6 +3,7 @@ import { BrowserRouter as Router, NavLink, Link } from "react-router-dom";
 import './App.css';
 import firebase from "./firebase";
 import Responsivepie from "./ResponsivePie";
+import Responsiveline from "./ResponsiveLine";
 import swal from 'sweetalert';
 
 
@@ -36,7 +37,6 @@ class Dashboard extends Component {
     dbRef.on('value', (snapshot) => {
 
       const firebaseState = snapshot.val() || {}
-      console.log(firebaseState);
 
       this.setState({
         garbageBags: firebaseState.garbageBags,
@@ -191,6 +191,7 @@ class Dashboard extends Component {
                   />
       
               </div>
+              <Responsiveline/>
 
 
             </main>
