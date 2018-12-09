@@ -20,13 +20,22 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    //on mount, take a snapshot of firebase CURRENT node, and use that to set State of component. So everything is up to date.
+
+    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    dbRefpast.on('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        dbRefpast.update([{
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0}])
+      }
+    })
+
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
     dbRef.on('value', (snapshot) => {
 
-      const firebaseState = snapshot.val()
+      const firebaseState = snapshot.val() || {}
       console.log(firebaseState);
-      console.log(firebase.sta)
 
       this.setState({
         garbageBags: firebaseState.garbageBags,
@@ -36,6 +45,19 @@ class Dashboard extends Component {
 
       });
 
+    // let firebaseState;
+    // dbRef.once('value', (snapshot) => {
+    //   firebaseState = snapshot.val();
+    //   console.log(firebaseState)
+
+    // }).then(() => {
+    //   // this.setState({
+    //   //   garbageBags: firebaseState.garbageBags,
+    //   //   greenBags: firebaseState.greenBags,
+    //   //   blueBags: firebaseState.blueBags
+    //   // });
+
+    // })
   }
 
 
@@ -47,8 +69,7 @@ class Dashboard extends Component {
 
     let userClick = firebase.database().ref(e.target.id)
     let bagValue = Number(e.target.value) + 1
-
-    //sets state depending on which button user clicks
+    // sets state
     this.setState({
       [e.target.id]: bagValue
     })
@@ -56,42 +77,54 @@ class Dashboard extends Component {
     dbRef.update({
       [e.target.id]: bagValue
     }) 
+    
   }
 
-  //function that passes users CURRENT totals into a node titled PAST to be used later.
   saveWeek = (e) => {
     e.preventDefault();
-    const dbRef = firebase.database().ref(`/${this.props.user.uid}/past`);
+    // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
+
+    const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
+
     const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
 
-    //creating an object of users CURRENT weekly totals
+
     let pastWeek = {
       greenBags: this.state.greenBags,
       garbageBags: this.state.garbageBags,
       blueBags: this.state.blueBags
     }
-    //creating an object to RESET users weekly totals on submit
+    
+
+    // let pastWeek = [{
+    //   greenBags: 10,
+    //   garbageBags: 10,
+    //   blueBags: 10
+    // }]
+
     let newWeek = {
       greenBags: 0,
       garbageBags: 0,
       blueBags: 0
     }
-    //resetting local state
+
     this.setState({
       greenBags: 0,
       garbageBags: 0,
       blueBags: 0
     })
-    //returning the array inside of PAST node of firebase
+
+    // dbRefpast.push({something: 0, otherthing: 2})
+
+    //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
     let firebaseArray;
-     dbRef.once('value', (snapshot) => {
+     dbRefPast.once('value', (snapshot) => {
       firebaseArray = snapshot.val();
+      console.log(firebaseArray)
     }).then(()=>{
-      //adding pastWeek object to the firebaseArray that includes all past weeks in order from oldest to newest
+      // console.log(pastWeek)
       firebaseArray.push(pastWeek)
-      //pushing users weekly totals(and past totals) to /past node in firebase
-      dbRef.update(firebaseArray)
-      //pushing a RESET object to users /current node in firebase
+      dbRefPast.update(firebaseArray)
       dbRefCurrent.update(newWeek)
     })
   }
