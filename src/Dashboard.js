@@ -35,7 +35,6 @@ class Dashboard extends Component {
     dbRef.on('value', (snapshot) => {
 
       const firebaseState = snapshot.val() || {}
-      console.log(firebaseState);
 
       this.setState({
         garbageBags: firebaseState.garbageBags,
@@ -120,7 +119,6 @@ class Dashboard extends Component {
     let firebaseArray;
      dbRefPast.once('value', (snapshot) => {
       firebaseArray = snapshot.val();
-      console.log(firebaseArray)
     }).then(()=>{
       // console.log(pastWeek)
       firebaseArray.push(pastWeek)

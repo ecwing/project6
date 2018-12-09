@@ -5,6 +5,7 @@ import "./App.css";
 import UserProfile from "./UserProfile";
 import Api from "./Search";
 import Dashboard from "./Dashboard";
+import Responsiveline from "./ResponsiveLine";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
@@ -132,6 +133,7 @@ class App extends Component {
 
         </div>
       </Router>
+      <Responsiveline/>
     </div>
     );
   }
