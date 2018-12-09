@@ -12,9 +12,24 @@ class Responsivepie extends Component {
     this.state = {
       greenBags: this.props.greenBags,
       garbageBags: this.props.garbageBags,
-      blueBags: this.props.blueBags
+      blueBags: this.props.blueBags,
+      condition: true,
+      newTest: 2
     }
   }
+
+  // checkingState = () => {    
+  //   if (this.state.newTest === 0)
+  //   {
+  //   this.setState({
+  //     condition: false
+  //   })
+  // } else {
+  //   this.setState({
+  //     condition: true
+  //   })
+  // }}
+
 
    render() {
       return (
@@ -25,7 +40,7 @@ class Responsivepie extends Component {
                      "id": "garbage",
                      "label": "garbage",
                      "value": this.props.garbageBags,
-                     "color": "hsl(0, 100%, 0%)"
+                     "color": "#FFFFFF"
                   },
                   {
                      "id": "blueBin",
@@ -111,8 +126,6 @@ class Responsivepie extends Component {
                ]}
             />
          </div>
-      );
-   }
-}
+    )}}
 
 export default Responsivepie;
