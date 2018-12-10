@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, NavLink, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
 import './App.css';
 import firebase from "./firebase";
 import Responsivepie from "./ResponsivePie";
 import Responsiveline from "./ResponsiveLine";
 import swal from 'sweetalert';
-
-
-const provider = new firebase.auth.GoogleAuthProvider();
-const auth = firebase.auth();
 
 class Dashboard extends Component {
   constructor(props) {
@@ -22,15 +18,24 @@ class Dashboard extends Component {
     }
   }
 
-  componentDidUpdate(prevProp, prevState){
+  componentDidUpdate(prevProp){
     console.log("PREVPROP", prevProp)
-    console.log("prevstate", prevState)
+    // console.log("prevstate", prevState)
+
+      if (this.props.user !== prevProp.user && this.props.user !== null) {
+        this.arrayOfEight()
+        this.currentFunction()
+      }
+
   }
 
-  componentDidMount() {
-    this.arrayOfEight();
+  currentFunction = () => {
+    //if the prop if different than the previous prop, then only updat state. 
+    // this.arrayOfEight();
     //sets state using the CURRENT firebase
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
+
+
     let firebaseState;
     //making sure state is set to 0 and not undefined on a promise
     dbRef.on('value', (snapshot) => {
@@ -42,6 +47,8 @@ class Dashboard extends Component {
       });
     });
   }
+
+
 
   //function that creates an ARRAY of 8 most recent items in PAST node to pass to State
   arrayOfEight = () => {
@@ -90,11 +97,12 @@ class Dashboard extends Component {
           blueBags: 0
         }
       ]
+
     dbRefpast.once('value', (snapshot) => {
       if (!snapshot.exists()) {
         dbRefpast.update(empty)
       }
-      //ERRORS OUT BECAUSE SNAPSHOT DOESNOT EXIST PUT IN .then?
+      
     }).then((snapshot) => {
       //create variable of the snapshot of PAST node and set it as State
       const firebaseStatePast = snapshot.val();
@@ -185,10 +193,12 @@ class Dashboard extends Component {
   }
 
   render() {
+    if (!this.props.user) return null;
     return (
-      <div className="dashboard">
-        {
-          this.props.user ? (
+      <div>
+        {this.props.user ?
+        (<div className="dashboard">
+        
             <main>
               <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
 
@@ -225,28 +235,50 @@ class Dashboard extends Component {
                 <input type="submit" />
               </form>
 
-              <div className="weeklyPie">
-                <Responsivepie
+              <Responsivepie
                   garbageBags={this.state.garbageBags}
                   greenBags={this.state.greenBags}
                   blueBags={this.state.blueBags}
-                />
-              </div>
-              <Responsiveline lineGraph={this.state.lineGraph}/>
+              />
+
+
+              <Link to="/dashboard/linegraph">Click here for historical data idk</Link>
+
+              {/* <Route path="/linegraph" component={Responsiveline} /> */}
+
+              {/* <Responsiveline lineGraph={this.state.lineGraph}/> */}
+
+              <Route path="/dashboard/linegraph"
+                render={() => {
+                return (
+                  <p>hiiiiii</p>
+                )
+              }}/>
+
+                {/* // <Responsiveline
+                // lineGraph={this.state.lineGraph}/>)
+                // }}
+                // /> */}
+               
+
+              {/* <Route path="/dashboard/linegraph"
+                render={() => {
+                  return (
+                    <p> hi </p>
+                  )}}/> */}
+
+              
 
 
             </main>
-          )
-            : (
-              <h4>You must be logged in to see this page</h4>
-            )
-        }
-      </div>
+        </div>
     )
-  }
-
+    :
+    (<h4>You must be logged in to see this page</h4>)
+    }
+    </div>
+  )}
 
 
 }
-
 export default Dashboard
