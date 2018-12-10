@@ -270,7 +270,7 @@ class Search extends Component {
                         border: '1px solid purple'
                       }}>
                       {/* <h2>{this.state.searchInput}</h2> */}
-                      <>{this.decodeHtml(`${result.body}`)}</>
+                      <p >{this.decodeHtml(`${result.body}`)}</p>
                       <p>{result.category}</p>
 
                       <div>{this.imagePicker(result)}</div>

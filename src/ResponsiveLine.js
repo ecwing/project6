@@ -12,9 +12,8 @@ class Responsiveline extends Component {
       super()
    }
 
-  
    render() {
-      if (!this.props.lineGraph) return null;
+      if (!this.props.lineGraph) return null && console.log("you fail");
       return(
          <div className="LineApp">
          <ResponsiveLine

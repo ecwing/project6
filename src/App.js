@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {BrowserRouter as Router, Route, Link, NavLink} from "react-router-dom";
 import firebase from "firebase";
 import "./App.css";
-import UserProfile from "./UserProfile";
 import Search from "./Search";
 import Dashboard from "./Dashboard";
 import Responsiveline from "./ResponsiveLine";
@@ -128,31 +127,32 @@ class App extends Component {
       </header>
 
       <Router>
+
         <div className="routerDaddy">
           
-          <Search />
+          <NavLink to="/">Search For Garbage</NavLink>   
+          <Route exact path="/" component={Search}/>
 
-          {/* <NavLink to="/">Home </NavLink>
-          <NavLink to="/userprofile">Go to Your UserPage</NavLink> */}
+          {/* <Search /> */}
 
-          {/* <h6>Above Route</h6> */}
+          {/* <NavLink to="/">Home </NavLink> */}
+          <Link to="/dashboard">Go to Your Dashboard</Link>
 
-          <Route path="/userprofile" component={UserProfile} />
 
-          {/* //rendering the dashboard if user is signed in, else rendering an empty dashboard that prompts user to sign in */}
-
-          {this.state.user 
-          ? <Dashboard 
+          <Route exact 
+          path="/dashboard" 
+          render=
+          {(props) => 
+          <Dashboard 
           user={this.state.user}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          /> 
-          : 
-          <div className="dashboardAnon"> please Sign in to see user dashboard</div>}
-
+          />}
+          />
 
         </div>
       </Router>
+      
     </div>
     );
   }
