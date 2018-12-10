@@ -22,28 +22,25 @@ class Dashboard extends Component {
     }
   }
 
+  componentDidUpdate(prevProp, prevState){
+    console.log("PREVPROP", prevProp)
+    console.log("prevstate", prevState)
+  }
+
   componentDidMount() {
-
     this.arrayOfEight();
-
     //sets state using the CURRENT firebase
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
-
     let firebaseState;
     //making sure state is set to 0 and not undefined on a promise
-    dbRef.once('value', (snapshot) => {
-      let firebaseState = snapshot.val() || 
-      {garbageBags: 0, greenBags: 0, blueBags: 0}
-    }).then(() => {
-
+    dbRef.on('value', (snapshot) => {
+      let firebaseState = snapshot.val() || {}
       this.setState({
         garbageBags: firebaseState.garbageBags,
         greenBags: firebaseState.greenBags,
         blueBags: firebaseState.blueBags
       });
-
     });
-    
   }
 
   //function that creates an ARRAY of 8 most recent items in PAST node to pass to State
@@ -93,20 +90,15 @@ class Dashboard extends Component {
           blueBags: 0
         }
       ]
-    dbRefpast.on('value', (snapshot) => {
+    dbRefpast.once('value', (snapshot) => {
       if (!snapshot.exists()) {
         dbRefpast.update(empty)
       }
-
-
-      console.log(snapshot.val())
-
       //ERRORS OUT BECAUSE SNAPSHOT DOESNOT EXIST PUT IN .then?
-
+    }).then((snapshot) => {
       //create variable of the snapshot of PAST node and set it as State
       const firebaseStatePast = snapshot.val();
       let newFirebase = firebaseStatePast.slice(-8)
-      console.log(newFirebase)
       this.setState({
         lineGraph: newFirebase
       })
@@ -163,38 +155,21 @@ class Dashboard extends Component {
     let firebaseArray;
     dbRefPast.once('value', (snapshot) => {
       firebaseArray = snapshot.val();
+      console.log("in the .then of saveWeek")
       // console.log(firebaseArray)
     }).then(() => {
-      console.log(pastWeek)
+  
       console.log("before", firebaseArray)
-
-      // if (firebaseArray.length < 2) {
-      //     firebaseArray.unshift(pastWeek)
-      //     firebaseArray.pop()
-      //     console.log("if", firebaseArray)
-      //     dbRefPast.update(firebaseArray)
-      //     dbRefCurrent.update(newWeek)
-      //   } else if (firebaseArray.length <= 8) {
-      //       // firebaseArray
-      //       console.log("else if", firebaseArray)
-      //     }
-      //     else {
-      //         console.log("else", firebaseArray)
-      //         firebaseArray.push(pastWeek)
-      //       }
       firebaseArray.push(pastWeek)
-      console.log(firebaseArray, "THE END OF IF ELSE STATEMENT")
       dbRefPast.update(firebaseArray)
       dbRefCurrent.update(newWeek)
+      this.arrayOfEight()
     });
   }
-
-
 
   //function that saves week on submit and adds it to PAST node
   onSubmitDashboard = (e) => {
     e.preventDefault();
-
     swal({
       title: "Are you sure?",
       text: "submit garbage stats",
@@ -208,7 +183,6 @@ class Dashboard extends Component {
       }
     })
   }
-
 
   render() {
     return (

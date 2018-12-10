@@ -3,9 +3,17 @@ import {BrowserRouter as Router, Route, Link, NavLink} from "react-router-dom";
 import firebase from "firebase";
 import "./App.css";
 import UserProfile from "./UserProfile";
-import Api from "./Search";
+import Search from "./Search";
 import Dashboard from "./Dashboard";
 import Responsiveline from "./ResponsiveLine";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUserCircle, faTint } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faUserCircle)
+
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
@@ -96,39 +104,51 @@ class App extends Component {
   render() {
     return (
     <div className="App">
-      <header>
-        {this.state.user ? 
-          <button onClick={this.logOut}>Sign Out</button>
-          :
-          <div>
-            <button onClick={this.logIn}>Sign In</button>
-            <button onClick={this.anonLogIn}>Sign In as Guest</button>
-          </div> }
-          {this.state.user 
-            ? 
-            <img className="profilePic" src={this.state.user.photoURL} height="50" alt="Google photo of user"/> 
-            : null}    
-
+      <header className="clearfix">
         <h1>Garbage Sorter</h1>
+        
+        <div className="buttons">
+          {this.state.user ? 
+          <button id="signOut" onClick={this.logOut}>Sign Out</button>
+          :
+          <> <button id="signIn" onClick={this.logIn}>Sign In</button>
+          <button id="signInGuest" onClick={this.anonLogIn}>Sign In as Guest</button> </>
+          }
+          </div>
+
+          <div className="userImage">
+          {this.state.user
+            ? 
+            <img className="profilePic" src={this.state.user.photoURL} height="50" alt="Google profile of user"/> 
+            : 
+            null 
+          }    
+          </div>
+
       </header>
 
       <Router>
         <div className="routerDaddy">
-          <Api />
+          
+          <Search />
 
-          <NavLink to="/">Home </NavLink>
-          <NavLink to="/userprofile">Go to Your UserPage</NavLink>
+          {/* <NavLink to="/">Home </NavLink>
+          <NavLink to="/userprofile">Go to Your UserPage</NavLink> */}
 
-          <h6>Above Route</h6>
+          {/* <h6>Above Route</h6> */}
 
           <Route path="/userprofile" component={UserProfile} />
 
-          {/* //rendering the dashboard if user is signed in, if not rendering an empty dashboard that prompts user to sign in */}
-          {this.state.user ? <Dashboard 
+          {/* //rendering the dashboard if user is signed in, else rendering an empty dashboard that prompts user to sign in */}
+
+          {this.state.user 
+          ? <Dashboard 
           user={this.state.user}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          /> : <div className="dashboard"> please Sign in to see user dashboard</div>}
+          /> 
+          : 
+          <div className="dashboardAnon"> please Sign in to see user dashboard</div>}
 
 
         </div>

@@ -10,7 +10,6 @@ import './App.css';
 class Responsiveline extends Component {
    constructor() {
       super()
-   
    }
 
   
