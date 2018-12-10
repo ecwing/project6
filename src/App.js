@@ -5,6 +5,7 @@ import "./App.css";
 import UserProfile from "./UserProfile";
 import Search from "./Search";
 import Dashboard from "./Dashboard";
+import Responsiveline from "./ResponsiveLine";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
