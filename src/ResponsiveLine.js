@@ -18,7 +18,6 @@ class Responsiveline extends Component {
       if (!this.props.lineGraph) return null;
       return(
          <div className="LineApp">
-         {console.log(this.props.lineGraph)}
          <ResponsiveLine
                   data={[
                      {
@@ -47,24 +46,16 @@ class Responsiveline extends Component {
                            },
                            {
                               "x": "6",
-                              "y": 0
+                              "y": this.props.lineGraph[5].garbageBags
                            },
                            {
                               "x": "7",
-                              "y": 0
+                              "y": this.props.lineGraph[6].garbageBags
                            },
                            {
                               "x": "8",
-                              "y": 0
+                              "y": this.props.lineGraph[7].garbageBags
                            },
-                           {
-                              "x": "9",
-                              "y": 0
-                           },
-                           {
-                              "x": "10",
-                              "y": 0
-                           }
                         ]
                      },
                      {
@@ -73,43 +64,35 @@ class Responsiveline extends Component {
                         "data": [
                            {
                               "x": "1",
-                              "y": 57
+                              "y": this.props.lineGraph[0].blueBags
                            },
                            {
                               "x": "2",
-                              "y": 0
+                              "y": this.props.lineGraph[1].blueBags
                            },
                            {
                               "x": "3",
-                              "y": 0
+                              "y": this.props.lineGraph[2].blueBags
                            },
                            {
                               "x": "4",
-                              "y": 0
+                              "y": this.props.lineGraph[3].blueBags
                            },
                            {
                               "x": "5",
-                              "y": 0
+                              "y": this.props.lineGraph[4].blueBags
                            },
                            {
                               "x": "6",
-                              "y": 0
+                              "y": this.props.lineGraph[5].blueBags
                            },
                            {
                               "x": "7",
-                              "y": 28
+                              "y": this.props.lineGraph[6].blueBags
                            },
                            {
                               "x": "8",
-                              "y": 0
-                           },
-                           {
-                              "x": "9",
-                              "y": 0
-                           },
-                           {
-                              "x": "10",
-                              "y": 0
+                              "y": this.props.lineGraph[7].blueBags
                            }
                         ]
                      },
@@ -118,60 +101,52 @@ class Responsiveline extends Component {
                         "color": "hsl(58, 70%, 50%)",
                         "data": [
                            {
-                              "x": "",
-                              "y": 20
+                              "x": "1",
+                              "y": this.props.lineGraph[0].greenBags
                            },
                            {
                               "x": "2",
-                              "y": 0
+                              "y": this.props.lineGraph[1].greenBags
                            },
                            {
                               "x": "3",
-                              "y": 74
+                              "y": this.props.lineGraph[2].greenBags
                            },
                            {
                               "x": "4",
-                              "y": 14
+                              "y": this.props.lineGraph[3].greenBags
                            },
                            {
                               "x": "5",
-                              "y": 20
+                              "y": this.props.lineGraph[4].greenBags
                            },
                            {
                               "x": "6",
-                              "y": 1
+                              "y": this.props.lineGraph[5].greenBags
                            },
                            {
                               "x": "7",
-                              "y": 9
+                              "y": this.props.lineGraph[6].greenBags
                            },
                            {
                               "x": "8",
-                              "y": 20
-                           },
-                           {
-                              "x": "9",
-                              "y": 7
-                           },
-                           {
-                              "x": "10",
-                              "y": 29
+                              "y": this.props.lineGraph[7].greenBags
                            }
                         ]
                      }
                   ]}
                   margin={{
-                     "top": 1,
-                     "right": 105,
-                     "bottom": 60,
-                     "left": 102
+                     "top": 0,
+                     "right": 100,
+                     "bottom": 100,
+                     "left": 100
                   }}
                   xScale={{
                      "type": "point"
                   }}
                   yScale={{
                      "type": "linear",
-                     "stacked": true,
+                     "stacked": false,
                      "min": "auto",
                      "max": "auto"
                   }}
@@ -193,15 +168,16 @@ class Responsiveline extends Component {
                      "legendOffset": -40,
                      "legendPosition": "middle"
                   }}
-                  enableGridY={false}
+                  enableGridY={true}
                   colors="category10"
-
-                  lineWidth={7}
-                  lineHeight={10}
+                  curve={"catmullRom"}
+                  lineWidth={4}
+                  lineHeight={5}
                   enableDots={true}
                   dotSize={10}
                   dotColor="inherit:darker(0.3)"
                   // yScale={1}
+                  // enableStackTooltip={false}
                   dotBorderWidth={2}
                   dotBorderColor="#ffffff"
                   enableDotLabel={true}
@@ -216,15 +192,15 @@ class Responsiveline extends Component {
                      {
                         "anchor": "bottom-right",
                         "direction": "column",
-                        "justify": true,
+                        "justify": false,
                         "translateX": 100,
                         "translateY": 0,
                         "itemsSpacing": 0,
                         "itemDirection": "left-to-right",
                         "itemWidth": 80,
                         "itemHeight": 20,
-                        "itemOpacity": 0.75,
-                        "symbolSize": 12,
+                        "itemOpacity": 1,
+                        "symbolSize": 15,
                         "symbolShape": "circle",
                         "symbolBorderColor": "rgba(0, 0, 0, .5)",
                         "effects": [

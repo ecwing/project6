@@ -23,24 +23,10 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
-  
-    dbRefpast.on('value', (snapshot) => {
-      if (!snapshot.exists()) {
-        dbRefpast.update([{
-          greenBags: 0,
-          garbageBags: 0,
-          blueBags: 0}])
-      }
-      //create variable of the snapshot of PAST node and set it as State
-      const firebaseStatePast = snapshot.val();
-      console.log(firebaseStatePast)
-      this.setState({
-        lineGraph: firebaseStatePast
-      })
-    })
 
+    this.arrayOfEight();
 
+    //sets state using the CURRENT firebase
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
     dbRef.on('value', (snapshot) => {
 
@@ -56,8 +42,65 @@ class Dashboard extends Component {
       });
   }
 
+  //function that creates an ARRAY of 8 most recent items in PAST node to pass to State
+  arrayOfEight = () => {
+    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    //sets up a fall-back incase PAST node is empty
+    dbRefpast.on('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        dbRefpast.update([{
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        }])
+      }
+
+      let empty = 
+      [
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0},
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0}, 
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0},
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0}, 
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0},
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0},
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0},
+        {greenBags: 0,
+        garbageBags: 0,
+        blueBags: 0}  
+      ]
+
+      // console.log(empty)
 
 
+      //create variable of the snapshot of PAST node and set it as State
+      const firebaseStatePast = snapshot.val();
+      if (firebaseStatePast <= 8) {
+        // firebaseStatePast.unshift()
+      }
+      // console.log(firebaseStatePast)
+      this.setState({
+        // lineGraph: firebaseStatePast.slice(-8)
+      })
+    })
+  };
+
+
+
+  //function that adds a bag to CURRENT node in firebase
   addBag = (e) => {
     e.preventDefault();
     //created a database called CURRENT unique to each user
@@ -65,6 +108,7 @@ class Dashboard extends Component {
 
     let userClick = firebase.database().ref(e.target.id)
     let bagValue = Number(e.target.value) + 1
+    
     // sets state
     this.setState({
       [e.target.id]: bagValue
@@ -73,10 +117,67 @@ class Dashboard extends Component {
     dbRef.update({
       [e.target.id]: bagValue
     }) 
-    
   }
 
-  saveWeek = (e) => {
+
+  saveWeek = () => {
+    const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
+
+    const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
+
+    // variable that grabs present state
+    let pastWeek = {
+      greenBags: this.state.greenBags,
+      garbageBags: this.state.garbageBags,
+      blueBags: this.state.blueBags
+    }
+    //variable that resets CURRENT to empty
+    let newWeek = {
+      greenBags: 0,
+      garbageBags: 0,
+      blueBags: 0
+    }
+
+    this.setState({
+      greenBags: 0,
+      garbageBags: 0,
+      blueBags: 0
+    })
+
+    //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
+    let firebaseArray;
+    dbRefPast.once('value', (snapshot) => {
+      firebaseArray = snapshot.val();
+      console.log(firebaseArray)
+    }).then(() => {
+      // console.log(pastWeek)
+      console.log("before", firebaseArray)
+      
+      // if (firebaseArray.length === 1) {
+      //     firebaseArray.unshift(pastWeek)
+      //     // firebaseArray.pop()
+      //     console.log("if", firebaseArray)
+      //     dbRefPast.update(firebaseArray)
+      //     dbRefCurrent.update(newWeek)
+      //   } else if (firebaseArray.length <= 8) {
+      //       // firebaseArray
+      //       console.log("else if", firebaseArray)
+      //     }
+      //     else {
+      //         console.log("else", firebaseArray)
+      //         firebaseArray.push(pastWeek)
+      //       }
+      firebaseArray.push(pastWeek)
+      console.log(firebaseArray, "THE END OF IF ELSE STATEMENT")
+      dbRefPast.update(firebaseArray)
+      dbRefCurrent.update(newWeek)
+    });
+  }
+
+
+
+  //function that saves week on submit and adds it to PAST node
+  onSubmitDashboard = (e) => {
     e.preventDefault();
 
     swal({
@@ -86,49 +187,7 @@ class Dashboard extends Component {
     }).then((submit) => {
         // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
         if(submit) {
-        const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
-
-        const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
-
-
-        let pastWeek = {
-          greenBags: this.state.greenBags,
-          garbageBags: this.state.garbageBags,
-          blueBags: this.state.blueBags
-        }
-
-
-        // let pastWeek = [{
-        //   greenBags: 10,
-        //   garbageBags: 10,
-        //   blueBags: 10
-        // }]
-
-        let newWeek = {
-          greenBags: 0,
-          garbageBags: 0,
-          blueBags: 0
-        }
-
-        this.setState({
-          greenBags: 0,
-          garbageBags: 0,
-          blueBags: 0
-        })
-
-        // dbRefpast.push({something: 0, otherthing: 2})
-
-        //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
-        let firebaseArray;
-        dbRefPast.once('value', (snapshot) => {
-          firebaseArray = snapshot.val();
-          console.log(firebaseArray)
-        }).then(() => {
-          // console.log(pastWeek)
-          firebaseArray.push(pastWeek)
-          dbRefPast.update(firebaseArray)
-          dbRefCurrent.update(newWeek)
-        });
+          this.saveWeek()
       } else {
         //
       }
@@ -143,7 +202,7 @@ class Dashboard extends Component {
             <main>
               <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
 
-              <form className="goalsForm" onSubmit={this.saveWeek}>
+              <form className="goalsForm" onSubmit={this.onSubmitDashboard}>
 
                 <label htmlFor="">Number of Garbage Bags</label>
                 <button
@@ -177,16 +236,13 @@ class Dashboard extends Component {
               </form>
 
               <div className="weeklyPie">
-                
-          
                 <Responsivepie        
                   garbageBags={this.state.garbageBags}
                   greenBags={this.state.greenBags}
                   blueBags={this.state.blueBags}
                   />
-      
               </div>
-              <Responsiveline lineGraph={this.state.lineGraph}/>
+              {/* <Responsiveline lineGraph={this.state.lineGraph}/> */}
 
 
             </main>
