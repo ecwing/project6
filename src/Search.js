@@ -4,7 +4,6 @@ import axios from 'axios';
 import Downshift from 'downshift'
 import { noAuto } from '@fortawesome/fontawesome-svg-core';
 
-
 class Search extends Component {
   constructor() {
     super()
@@ -87,17 +86,23 @@ class Search extends Component {
 
   imagePicker = (result) => {
     if (result.category === "Blue Bin"){
-      console.log("BLUE BIN!!!!!!!");
+      return <img src={require('./assets/bluebin.png')} alt="blue bin" /> 
     } else if (result.category === "Green Bin") {
-      console.log("greenbin!!!");
+      return <img src={require('./assets/greenbin.png')} alt="green bin" />
     } else if (result.category === "Garbage") {
-      console.log("GARBAGE!!!!");
+      return <img src={require('./assets/garbagebin.png')} alt="garbage" />    
     } else if (result.category === "Oversize"){
-      console.log("oversize!!!!!");
+      return <img src={require('./assets/oversize.png')} alt="oversize" />
     } else if (result.category === "Yard Waste") {
-      console.log("YARD WASTE!!!!!!");
+      return <img src={require('./assets/yardwaste.png')} alt="yard waste" />
     } else if (result.category === "HHW") {
-      console.log("HAZARDOUS!!!!!");
+      return <img src={require('./assets/hhw.png')} alt="Hazardous Waste" />
+    } else if (result.category === "Metal") {
+      return <img src={require('./assets/metal.png')} alt="Metal" />
+    } else if (result.category === "Not Accepted"){
+      return <img src={require('./assets/notaccepted.png')} alt="Not Accepted" /> 
+    } else if (result.category === "Electronics") {
+      return <img src={require('./assets/electronic.png')} alt="Electronics" />
     }
   }
 
@@ -168,7 +173,7 @@ class Search extends Component {
                     float: 'left',
                     margin: '0 auto',
                   }}
-                  src={require('./smileyGarbage.jpg')} alt="cute smiling garbage cans" /> 
+                  src={require('./assets/smileyGarbage.jpg')} alt="cute smiling garbage cans" /> 
 
                 <form onSubmit={this.handleSubmit}
                   style={{
@@ -267,7 +272,9 @@ class Search extends Component {
                       {/* <h2>{this.state.searchInput}</h2> */}
                       <>{this.decodeHtml(`${result.body}`)}</>
                       <p>{result.category}</p>
-                      <p>{this.imagePicker(result)}</p>
+
+                      <div>{this.imagePicker(result)}</div>
+
                     </div>
                   )
                 })}
