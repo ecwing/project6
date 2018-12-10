@@ -28,10 +28,13 @@ class Dashboard extends Component {
 
     //sets state using the CURRENT firebase
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
-    dbRef.on('value', (snapshot) => {
 
-      const firebaseState = snapshot.val() || {}
-  
+    let firebaseState;
+    //making sure state is set to 0 and not undefined on a promise
+    dbRef.once('value', (snapshot) => {
+      let firebaseState = snapshot.val() || 
+      {garbageBags: 0, greenBags: 0, blueBags: 0}
+    }).then(() => {
 
       this.setState({
         garbageBags: firebaseState.garbageBags,
@@ -39,61 +42,73 @@ class Dashboard extends Component {
         blueBags: firebaseState.blueBags
       });
 
-      });
+    });
+    
   }
 
   //function that creates an ARRAY of 8 most recent items in PAST node to pass to State
   arrayOfEight = () => {
     const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
     //sets up a fall-back incase PAST node is empty
-    dbRefpast.on('value', (snapshot) => {
-      if (!snapshot.exists()) {
-        dbRefpast.update([{
+    let empty =
+      [
+        {
           greenBags: 0,
           garbageBags: 0,
           blueBags: 0
-        }])
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        }
+      ]
+    dbRefpast.on('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        dbRefpast.update(empty)
       }
 
-      let empty = 
-      [
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0},
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0}, 
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0},
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0}, 
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0},
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0},
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0},
-        {greenBags: 0,
-        garbageBags: 0,
-        blueBags: 0}  
-      ]
 
-      // console.log(empty)
+      console.log(snapshot.val())
 
+      //ERRORS OUT BECAUSE SNAPSHOT DOESNOT EXIST PUT IN .then?
 
       //create variable of the snapshot of PAST node and set it as State
       const firebaseStatePast = snapshot.val();
-      if (firebaseStatePast <= 8) {
-        // firebaseStatePast.unshift()
-      }
-      // console.log(firebaseStatePast)
+      let newFirebase = firebaseStatePast.slice(-8)
+      console.log(newFirebase)
       this.setState({
-        // lineGraph: firebaseStatePast.slice(-8)
+        lineGraph: newFirebase
       })
     })
   };
@@ -108,7 +123,7 @@ class Dashboard extends Component {
 
     let userClick = firebase.database().ref(e.target.id)
     let bagValue = Number(e.target.value) + 1
-    
+
     // sets state
     this.setState({
       [e.target.id]: bagValue
@@ -116,7 +131,7 @@ class Dashboard extends Component {
     //updates current Firebase branch
     dbRef.update({
       [e.target.id]: bagValue
-    }) 
+    })
   }
 
 
@@ -148,14 +163,14 @@ class Dashboard extends Component {
     let firebaseArray;
     dbRefPast.once('value', (snapshot) => {
       firebaseArray = snapshot.val();
-      console.log(firebaseArray)
+      // console.log(firebaseArray)
     }).then(() => {
-      // console.log(pastWeek)
+      console.log(pastWeek)
       console.log("before", firebaseArray)
-      
-      // if (firebaseArray.length === 1) {
+
+      // if (firebaseArray.length < 2) {
       //     firebaseArray.unshift(pastWeek)
-      //     // firebaseArray.pop()
+      //     firebaseArray.pop()
       //     console.log("if", firebaseArray)
       //     dbRefPast.update(firebaseArray)
       //     dbRefCurrent.update(newWeek)
@@ -185,16 +200,17 @@ class Dashboard extends Component {
       text: "submit garbage stats",
       buttons: true,
     }).then((submit) => {
-        // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
-        if(submit) {
-          this.saveWeek()
+      // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
+      if (submit) {
+        this.saveWeek()
       } else {
         //
       }
-})}
+    })
+  }
 
 
-  render(){
+  render() {
     return (
       <div className="dashboard">
         {
@@ -214,14 +230,14 @@ class Dashboard extends Component {
                   GARBAGE {this.state.garbageBags}</button>
 
                 <label>Number of compost bags: </label>
-                    <button
-                    id="greenBags"
-                    data-bag={this.state.greenBags}
-                    type="number"
-                    value={this.state.greenBags}
+                <button
+                  id="greenBags"
+                  data-bag={this.state.greenBags}
+                  type="number"
+                  value={this.state.greenBags}
                   onClick={this.addBag} >
                   GREENBIN {this.state.greenBags}</button>
-               
+
 
                 <label>Number of recycling bags:</label>
                 <button
@@ -232,17 +248,17 @@ class Dashboard extends Component {
                   onClick={this.addBag} >
                   BLUE BIN {this.state.blueBags}</button>
 
-                  <input type="submit"/>
+                <input type="submit" />
               </form>
 
               <div className="weeklyPie">
-                <Responsivepie        
+                <Responsivepie
                   garbageBags={this.state.garbageBags}
                   greenBags={this.state.greenBags}
                   blueBags={this.state.blueBags}
-                  />
+                />
               </div>
-              {/* <Responsiveline lineGraph={this.state.lineGraph}/> */}
+              <Responsiveline lineGraph={this.state.lineGraph}/>
 
 
             </main>
