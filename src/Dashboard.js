@@ -14,6 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      lineGraph: null,
       user: this.props.user,
       greenBags: 0,
       garbageBags: 0,
@@ -21,48 +22,92 @@ class Dashboard extends Component {
     }
   }
 
+  componentDidUpdate(prevProp, prevState){
+    console.log("PREVPROP", prevProp)
+    console.log("prevstate", prevState)
+  }
+
   componentDidMount() {
-
-    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
-    dbRefpast.on('value', (snapshot) => {
-      if (!snapshot.exists()) {
-        dbRefpast.update([{
-          greenBags: 0,
-          garbageBags: 0,
-          blueBags: 0}])
-      }
-    })
-
+    this.arrayOfEight();
+    //sets state using the CURRENT firebase
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
+    let firebaseState;
+    //making sure state is set to 0 and not undefined on a promise
     dbRef.on('value', (snapshot) => {
-
-      const firebaseState = snapshot.val() || {}
-
+      let firebaseState = snapshot.val() || {}
       this.setState({
         garbageBags: firebaseState.garbageBags,
         greenBags: firebaseState.greenBags,
         blueBags: firebaseState.blueBags
       });
-
-      });
-
-    // let firebaseState;
-    // dbRef.once('value', (snapshot) => {
-    //   firebaseState = snapshot.val();
-    //   console.log(firebaseState)
-
-    // }).then(() => {
-    //   // this.setState({
-    //   //   garbageBags: firebaseState.garbageBags,
-    //   //   greenBags: firebaseState.greenBags,
-    //   //   blueBags: firebaseState.blueBags
-    //   // });
-
-    // })
+    });
   }
 
+  //function that creates an ARRAY of 8 most recent items in PAST node to pass to State
+  arrayOfEight = () => {
+    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    //sets up a fall-back incase PAST node is empty
+    let empty =
+      [
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        },
+        {
+          greenBags: 0,
+          garbageBags: 0,
+          blueBags: 0
+        }
+      ]
+    dbRefpast.once('value', (snapshot) => {
+      if (!snapshot.exists()) {
+        dbRefpast.update(empty)
+      }
+      //ERRORS OUT BECAUSE SNAPSHOT DOESNOT EXIST PUT IN .then?
+    }).then((snapshot) => {
+      //create variable of the snapshot of PAST node and set it as State
+      const firebaseStatePast = snapshot.val();
+      let newFirebase = firebaseStatePast.slice(-8)
+      this.setState({
+        lineGraph: newFirebase
+      })
+    })
+  };
 
 
+
+  //function that adds a bag to CURRENT node in firebase
   addBag = (e) => {
     e.preventDefault();
     //created a database called CURRENT unique to each user
@@ -70,6 +115,7 @@ class Dashboard extends Component {
 
     let userClick = firebase.database().ref(e.target.id)
     let bagValue = Number(e.target.value) + 1
+
     // sets state
     this.setState({
       [e.target.id]: bagValue
@@ -77,70 +123,68 @@ class Dashboard extends Component {
     //updates current Firebase branch
     dbRef.update({
       [e.target.id]: bagValue
-    }) 
-    
+    })
   }
 
-  saveWeek = (e) => {
-    e.preventDefault();
 
+  saveWeek = () => {
+    const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
+
+    const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
+
+    // variable that grabs present state
+    let pastWeek = {
+      greenBags: this.state.greenBags,
+      garbageBags: this.state.garbageBags,
+      blueBags: this.state.blueBags
+    }
+    //variable that resets CURRENT to empty
+    let newWeek = {
+      greenBags: 0,
+      garbageBags: 0,
+      blueBags: 0
+    }
+
+    this.setState({
+      greenBags: 0,
+      garbageBags: 0,
+      blueBags: 0
+    })
+
+    //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
+    let firebaseArray;
+    dbRefPast.once('value', (snapshot) => {
+      firebaseArray = snapshot.val();
+      console.log("in the .then of saveWeek")
+      // console.log(firebaseArray)
+    }).then(() => {
+  
+      console.log("before", firebaseArray)
+      firebaseArray.push(pastWeek)
+      dbRefPast.update(firebaseArray)
+      dbRefCurrent.update(newWeek)
+      this.arrayOfEight()
+    });
+  }
+
+  //function that saves week on submit and adds it to PAST node
+  onSubmitDashboard = (e) => {
+    e.preventDefault();
     swal({
       title: "Are you sure?",
       text: "submit garbage stats",
       buttons: true,
     }).then((submit) => {
-        // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
-        if(submit) {
-        const dbRefPast = firebase.database().ref(`/${this.props.user.uid}/past`);
-
-        const dbRefCurrent = firebase.database().ref(`/${this.props.user.uid}/current`);
-
-
-        let pastWeek = {
-          greenBags: this.state.greenBags,
-          garbageBags: this.state.garbageBags,
-          blueBags: this.state.blueBags
-        }
-
-
-        // let pastWeek = [{
-        //   greenBags: 10,
-        //   garbageBags: 10,
-        //   blueBags: 10
-        // }]
-
-        let newWeek = {
-          greenBags: 0,
-          garbageBags: 0,
-          blueBags: 0
-        }
-
-        this.setState({
-          greenBags: 0,
-          garbageBags: 0,
-          blueBags: 0
-        })
-
-        // dbRefpast.push({something: 0, otherthing: 2})
-
-        //try to return the array inside of PAST node of firebase and then .push new object into it and then .update().firebase
-        let firebaseArray;
-        dbRefPast.once('value', (snapshot) => {
-          firebaseArray = snapshot.val();
-          console.log(firebaseArray)
-        }).then(() => {
-          // console.log(pastWeek)
-          firebaseArray.push(pastWeek)
-          dbRefPast.update(firebaseArray)
-          dbRefCurrent.update(newWeek)
-        });
+      // const deRefpast=  databaseReference.child("Users").child(user.getUid()).setValue(userInformations);
+      if (submit) {
+        this.saveWeek()
       } else {
         //
       }
-})}
+    })
+  }
 
-
-  render(){
+  render() {
     return (
       <div className="dashboard">
         {
@@ -148,7 +192,7 @@ class Dashboard extends Component {
             <main>
               <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
 
-              <form className="goalsForm" onSubmit={this.saveWeek}>
+              <form className="goalsForm" onSubmit={this.onSubmitDashboard}>
 
                 <label htmlFor="">Number of Garbage Bags</label>
                 <button
@@ -160,14 +204,14 @@ class Dashboard extends Component {
                   GARBAGE {this.state.garbageBags}</button>
 
                 <label>Number of compost bags: </label>
-                    <button
-                    id="greenBags"
-                    data-bag={this.state.greenBags}
-                    type="number"
-                    value={this.state.greenBags}
+                <button
+                  id="greenBags"
+                  data-bag={this.state.greenBags}
+                  type="number"
+                  value={this.state.greenBags}
                   onClick={this.addBag} >
                   GREENBIN {this.state.greenBags}</button>
-               
+
 
                 <label>Number of recycling bags:</label>
                 <button
@@ -178,20 +222,17 @@ class Dashboard extends Component {
                   onClick={this.addBag} >
                   BLUE BIN {this.state.blueBags}</button>
 
-                  <input type="submit"/>
+                <input type="submit" />
               </form>
 
               <div className="weeklyPie">
-                
-          
-                <Responsivepie        
+                <Responsivepie
                   garbageBags={this.state.garbageBags}
                   greenBags={this.state.greenBags}
                   blueBags={this.state.blueBags}
-                  />
-      
+                />
               </div>
-              <Responsiveline/>
+              <Responsiveline lineGraph={this.state.lineGraph}/>
 
 
             </main>
