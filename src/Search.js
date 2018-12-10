@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Downshift from 'downshift'
+import { noAuto } from '@fortawesome/fontawesome-svg-core';
 
 
-class Api extends Component {
+class Search extends Component {
   constructor() {
     super()
     this.state = {
@@ -106,12 +107,21 @@ class Api extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mainSearch">
+        <div className="clearfix"> 
+        </div>
         <Downshift
           onChange={selection => this.setState({
             searchInput: selection.name,
           })}        
           itemToString={item => (item ? item.name : '')}
+          style={{
+            margin: '0 auto',
+            padding: '2 rem',
+            width: '40%',
+            // float: 'left',
+          }}
+
         >
           {({
             getInputProps,
@@ -124,14 +134,41 @@ class Api extends Component {
             highlightedIndex,
             selectedItem,
           }) => (
-              <div className="dropdaddy">
-                <form onSubmit={this.handleSubmit}>
-                  <label {...getLabelProps()}className="visuallyHidden">Search how to handle garbage here</label>
+              <div className="dropDaddy clearfix"
+                style={{
+                  margin: '0 auto',
+                  padding: '2rem 3rem',
+                  width: '80%',
+                  position: 'relative',
+                  border: '1px solid black'
+                }} >
+
+                <img
+                  style={{
+                    width: '30%',
+                    float: 'left',
+                    margin: '0 auto',
+                  }}
+                  src={require('./smileyGarbage.jpg')} alt="cute smiling garbage cans" /> 
+
+                <form onSubmit={this.handleSubmit}
+                  style={{
+                    margin: '0 auto',
+                    // padding: '2 rem',
+                    width: '100%',
+                    // float: 'left',
+                    border: '2px solid limegreen'
+                  }}
+>
+                  <label {...getLabelProps()}className="visuallyhidden">Enter items to learn how to dispose</label>
                   <input
                   {...getInputProps({
                     isOpen,
-                    Placeholder: "Search"
+                    Placeholder: "Enter items to search"
                   })}
+                  style={{
+                    font: '1.2rem'
+                  }}
                     type="text"
                     id="searchInput"
                     value={this.state.searchInput}
@@ -139,8 +176,13 @@ class Api extends Component {
                     {...getInputProps()} />
                   <input 
                   type="Submit"
-                  defaultValue="Garbage Day"/>
+                  defaultValue="Garbage Day"
+                  style={{
+                    font: '1.2rem',
+                    padding: '1.2rem'
+                  }}/>
                 </form>
+                
                 {selectedItem ? (
                   //placing an SVG of a black X trying to make it ON click clear search using clearSelection.method and it errors out.
                  <svg
@@ -161,7 +203,15 @@ class Api extends Component {
                     // </ControllerButton>
                   }
                 {isOpen ? (
-                  <div className="dropdown">
+                  <div className="dropdown" 
+                  style={{
+                    margin: '0 0 0 5rem',
+                    float: 'left',
+                    border: '2px solid orange',
+                    height: '300px',
+                    // position: 'absolute'
+                  }}
+ >
                     {this.state.keywordList
                       .filter(item => !inputValue || item.name.includes(inputValue))
                       .map((item, index) => (
@@ -181,22 +231,48 @@ class Api extends Component {
                       ))}
                   </div>
                 ) : null}
+
+                {this.state.submitSearch.map(result => {
+                  return (
+                    <div key={result.id} className="searchResults"
+                      style={{
+                        float: 'right',
+                        margin: '0 auto',
+                        width: '30%',
+                        padding: '1rem',
+                        border: '1px solid purple'
+                      }}>
+                      <h2>{this.state.searchInput}</h2>
+                      <>{this.decodeHtml(`${result.body}`)}</>
+                    </div>
+                  )
+                })}
+
               </div>
             )}
         </Downshift>
                       
+        {/* moved all of this up for styling
+        
         {this.state.submitSearch.map(result => {
           return (
-            <div key={result.id} className="searchResults">
+            <div key={result.id} className="searchResults"
+              style={{
+                // float: 'left',
+                margin: '0 auto',
+                width: '20%',
+                padding: '1rem',
+                border: '1px solid purple'
+              }}>
               <h2>{this.state.searchInput}</h2>
               <>{this.decodeHtml(`${result.body}`)}</>
             </div>
           )
         })}
-
+ */}
       </div> ) // end of render 
     }
       
 
 }
-export default Api;
+export default Search;
