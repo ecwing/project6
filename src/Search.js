@@ -4,7 +4,6 @@ import axios from 'axios';
 import Downshift from 'downshift'
 import { noAuto } from '@fortawesome/fontawesome-svg-core';
 
-
 class Search extends Component {
   constructor() {
     super()
@@ -12,7 +11,8 @@ class Search extends Component {
       keywordList: [],
       APIdata: [],
       searchInput: "",
-      submitSearch: []
+      submitSearch: [],
+      placeholder: "",
     }
   }
   componentDidMount() {
@@ -72,15 +72,38 @@ class Search extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    
     const userSearch = this.state.APIdata.filter(item => {
-      return item.keywords.includes(this.state.searchInput.toLowerCase())
+      return item.keywords.includes(this.state.placeholder.toLowerCase())
     })
     
     // console.log(userSearch);
     this.setState({
-      submitSearch: userSearch
+      submitSearch: userSearch,
+      searchInput: this.state.placeholder,
     })
+  }
+
+  imagePicker = (result) => {
+    if (result.category === "Blue Bin"){
+      return <img src={require('./assets/bluebin.png')} alt="blue bin" /> 
+    } else if (result.category === "Green Bin") {
+      return <img src={require('./assets/greenbin.png')} alt="green bin" />
+    } else if (result.category === "Garbage") {
+      return <img src={require('./assets/garbagebin.png')} alt="garbage" />    
+    } else if (result.category === "Oversize"){
+      return <img src={require('./assets/oversize.png')} alt="oversize" />
+    } else if (result.category === "Yard Waste") {
+      return <img src={require('./assets/yardwaste.png')} alt="yard waste" />
+    } else if (result.category === "HHW") {
+      return <img src={require('./assets/hhw.png')} alt="Hazardous Waste" />
+    } else if (result.category === "Metal") {
+      return <img src={require('./assets/metal.png')} alt="Metal" />
+    } else if (result.category === "Not Accepted"){
+      return <img src={require('./assets/notaccepted.png')} alt="Not Accepted" /> 
+    } else if (result.category === "Electronics") {
+      return <img src={require('./assets/electronic.png')} alt="Electronics" />
+    }
   }
 
   decodeHtml = (query) => {
@@ -111,8 +134,9 @@ class Search extends Component {
         <div className="clearfix"> 
         </div>
         <Downshift
-          onChange={selection => this.setState({
-            searchInput: selection.name,
+          onChange={selection => 
+            this.setState({
+            placeholder: selection.name,
           })}        
           itemToString={item => (item ? item.name : '')}
           style={{
@@ -149,7 +173,7 @@ class Search extends Component {
                     float: 'left',
                     margin: '0 auto',
                   }}
-                  src={require('./smileyGarbage.jpg')} alt="cute smiling garbage cans" /> 
+                  src={require('./assets/smileyGarbage.jpg')} alt="cute smiling garbage cans" /> 
 
                 <form onSubmit={this.handleSubmit}
                   style={{
@@ -206,6 +230,7 @@ class Search extends Component {
                   <div className="dropdown" 
                   style={{
                     margin: '0 0 0 5rem',
+                    font: '1.2rem',
                     float: 'left',
                     border: '2px solid orange',
                     height: '300px',
@@ -232,6 +257,8 @@ class Search extends Component {
                   </div>
                 ) : null}
 
+                <h2>{this.state.searchInput}</h2>
+
                 {this.state.submitSearch.map(result => {
                   return (
                     <div key={result.id} className="searchResults"
@@ -242,8 +269,12 @@ class Search extends Component {
                         padding: '1rem',
                         border: '1px solid purple'
                       }}>
-                      <h2>{this.state.searchInput}</h2>
+                      {/* <h2>{this.state.searchInput}</h2> */}
                       <>{this.decodeHtml(`${result.body}`)}</>
+                      <p>{result.category}</p>
+
+                      <div>{this.imagePicker(result)}</div>
+
                     </div>
                   )
                 })}
