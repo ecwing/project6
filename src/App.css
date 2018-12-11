@@ -11,14 +11,14 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 .App {
   text-align: center;
 }
+html{
+  font-size: 62.5%;
+  background: #fcfcfc;
+}
 
 body { 
-  font-size: 62.5%;
+  font-size: 1.8rem;
   font-family: 'Raleway', sans-serif;
-}
-html{
-  font-size: 1.6rem;
-  background: #fcfcfc;
 }
 
 .wrapper {
@@ -76,7 +76,7 @@ header button {
 
 /* //SEARCH LIST STYLES */
 .routerDaddy{
-  padding-top: 50px;
+  padding-top: 25px;
 }
 .dropDaddy {
   display: flex;
@@ -110,10 +110,10 @@ header button {
 }
 
 .mainSearchImg {
-  width: 30%;
+  width: 40%;
 }
 .mainSearch img {
-  width: 100%;
+  width: 75%;
 }
 .mainSearch input {
   border-radius: 50px;
@@ -190,6 +190,23 @@ input:placeholder-shown{
   margin: 0 auto;
   font-size: 1.4rem;
 }
+.goalsForm img {
+  width: 20%;
+  margin: 0 auto;
+}
+.buttonBoxGallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 33%;
+}
+
 /* //Pie chart styles */
 .placeHolderStuff {
   color: #00702e;
@@ -223,9 +240,21 @@ input[type='submit']:focus {
   
 }
 
+/* //RANDOM TIP STYLES */
+.nextTip,
+.tweet {
+background-color: rgb(16,135,209);color: white;
+  border: 1px solid white;
+ border-radius: 3px;
+    padding: 10px;
+    cursor: pointer;
+    outline: inherit;
+}
+/* END OF RANDOM TIP STYLES */
+
 
 /* //MEDIA QUERIES */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
   /* //HEADER MOBILE */
   .profilePic {
     display: none;
