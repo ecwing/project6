@@ -45,7 +45,10 @@ class Dashboard extends Component {
     let firebaseState;
     //making sure state is set to 0 and not undefined on a promise
     dbRef.on('value', (snapshot) => {
-      let firebaseState = snapshot.val() || {}
+      let firebaseState = snapshot.val() || 
+      {garbageBags: 0,
+        greenBags: 0,
+        blueBags: 0}
       this.setState({
         garbageBags: firebaseState.garbageBags,
         greenBags: firebaseState.greenBags,
@@ -58,6 +61,7 @@ class Dashboard extends Component {
 
   //function that creates an ARRAY of 8 most recent items in PAST node to pass to State if there is nothing in PAST, if not it sets the content of PAST to state
   arrayOfEight = () => {
+    console.log(this.props.user.uid)
     const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
     //sets up a fall-back incase PAST node is empty
     let empty =
@@ -110,7 +114,11 @@ class Dashboard extends Component {
       }
     }).then((snapshot) => {
       //create variable of the snapshot of PAST node and set it as State
-      const firebaseStatePast = snapshot.val();
+      const firebaseStatePast = snapshot.val() 
+      if(firebaseStatePast === null) {
+        this.callFirebaseForGuest()
+        return;
+      }
       let newFirebase = firebaseStatePast.slice(-8)
       this.setState({
         lineGraph: newFirebase
@@ -118,7 +126,16 @@ class Dashboard extends Component {
     })
   };
 
-
+  callFirebaseForGuest = () => {
+    const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
+    dbRefpast.once('value', (snapshot) => {
+      let firebaseStatePast = snapshot.val()
+      let newFirebase = firebaseStatePast.slice(-8)
+      this.setState({
+        lineGraph: newFirebase
+      })
+    })
+  }
 
   //function that adds a bag to CURRENT node in firebase
   addBag = (e) => {
@@ -220,9 +237,7 @@ class Dashboard extends Component {
               <Route exact path="/" component={Search}/>
               <button onClick={this.switchView}>Switch View</button>
 
-              <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
-
-
+              {/* <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4> */}
 
             {this.state.showPie ? 
                 <Responsivepie
@@ -234,34 +249,49 @@ class Dashboard extends Component {
 
               <form className="goalsForm" onSubmit={this.onSubmitDashboard}>
 
-                <label htmlFor="">Number of Garbage Bags</label>
+            <div className="buttonBoxGallery wrapper">
+              <div className="buttonBox">
+                <label className="visuallyhidden">Number of Garbage Bags</label>
+                <img src={require('./assets/garbageIcon.png')} alt="An icon of a garbage bin" />
                 <button
                   id="garbageBags"
                   data-bag={this.state.garbageBags}
                   type="number"
                   value={this.state.garbageBags}
                   onClick={this.addBag} >
-                  GARBAGE {this.state.garbageBags}</button>
+                  Garbage {this.state.garbageBags}
+                </button>
+              </div>
+          
 
-                <label>Number of compost bags: </label>
+              <div className="buttonBox">
+                <label className="visuallyhidden">Number of compost bags</label>
+                <img src={require('./assets/greenbinIcon.png')} alt="an Icon of a GreenBin" />
                 <button
                   id="greenBags"
                   data-bag={this.state.greenBags}
                   type="number"
                   value={this.state.greenBags}
                   onClick={this.addBag} >
-                  GREENBIN {this.state.greenBags}</button>
+                  Green Bin {this.state.greenBags}
+                </button>
+              </div>
+                
 
-
-                <label>Number of recycling bags:</label>
+              <div className="buttonBox">
+                <label className="visuallyhidden">Number of recycling bags</label>
+                <img src={require('./assets/recyclingIcon.png')} alt="an Icon of a GreenBin" />
                 <button
                   id="blueBags"
                   data-bag={this.state.blueBags}
                   type="number"
                   value={this.state.blueBags}
                   onClick={this.addBag} >
-                  BLUE BIN {this.state.blueBags}</button>
-
+                  Recyling {this.state.blueBags}
+                </button>
+              </div>
+              </div>
+               
                 <input type="submit" />
               </form>
             </main>
