@@ -56,7 +56,7 @@ class Dashboard extends Component {
 
 
 
-  //function that creates an ARRAY of 8 most recent items in PAST node to pass to State
+  //function that creates an ARRAY of 8 most recent items in PAST node to pass to State if there is nothing in PAST, if not it sets the content of PAST to state
   arrayOfEight = () => {
     const dbRefpast = firebase.database().ref(`/${this.props.user.uid}/past`);
     //sets up a fall-back incase PAST node is empty
@@ -196,6 +196,8 @@ class Dashboard extends Component {
       }
     })
   }
+  
+  //function that Switches Dashboard from Weekly Pie chart to Monthly Line Graph
   switchView = () => {
     this.state.showPie ?
       this.setState({
@@ -207,21 +209,28 @@ class Dashboard extends Component {
       })
   }
 
-
-
   render() {
     if (!this.props.user) return null;
     return (
       <div>
         {this.props.user ?
         (<div className="dashboard">
-        
             <main>
               <Link to="/">Return to Search</Link>
               <Route exact path="/" component={Search}/>
               <button onClick={this.switchView}>Switch View</button>
 
               <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
+
+
+
+            {this.state.showPie ? 
+                <Responsivepie
+                garbageBags={this.state.garbageBags}
+                greenBags={this.state.greenBags}
+                blueBags={this.state.blueBags}
+                /> : 
+                <Responsiveline lineGraph={this.state.lineGraph} />}
 
               <form className="goalsForm" onSubmit={this.onSubmitDashboard}>
 
@@ -255,16 +264,6 @@ class Dashboard extends Component {
 
                 <input type="submit" />
               </form>
-
-            {this.state.showPie ? 
-                <Responsivepie
-                  garbageBags={this.state.garbageBags}
-                  greenBags={this.state.greenBags}
-                  blueBags={this.state.blueBags}
-                 /> : 
-                <Responsiveline lineGraph={this.state.lineGraph} />} 
-
-
             </main>
         </div>
     )
