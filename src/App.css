@@ -8,89 +8,153 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 .visuallyhidden:not(:focus):not(:active) { position: absolute; width: 1px; height: 1px; margin: -1px;border: 0;padding: 0;white-space: nowrap;clip-path: inset(100%);clip: rect(00 0 0);overflow: hidden;}
 
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-
-body { 
-  background: rgb(16, 135, 209);
-  font-size: 62.5%;
-  font-family: 'Raleway', sans-serif;
-}
-
 .App {
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-/* header styles start */
-
-.profilePic {
-  border-radius: 50%;
-}
-
-header img {
-  float: right;
-}
-
-form .goalsForm {
-  display: flex;
-  flex-direction: column;
-}
-
-header h1 {
-  float: left; 
-}
-header button {
-  float: right;
-}
- 
-header {
-  background: lightgray;
-  padding: 1rem;
+body { 
+  font-size: 62.5%;
   font-family: 'Raleway', sans-serif;
 }
-
-.dropDaddy {
+html{
+  font-size: 1.6rem;
+  background: #fcfcfc;
+}
+img{
+  width: 100%;
+}
+.wrapper {
+  max-width: 1600px;
+  width: 90%;
   margin: 0 auto;
-  padding: 2rem 0;
 }
 
-#downshift-0-input {
-  padding: 1rem;
-  font-size: 1.2rem;
+/* HEADER STYLE START */
+header {
+  background: #ebf8e7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+.headerUser{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 50px;
+  width: 50%;
+}
+.profilePic {
+  border-radius: 50%;
+  border: 2px solid #00702e;
+}
+header h1 {
+  text-transform: uppercase;
+  display: flex;
+  padding-left: 50px;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-start;
+  letter-spacing: 1px;
+  color: #3e3e3e;
+}
+h2 {
+  text-transform: capitalize;
+}
+
+header button {
+  background: #00702e;
+  color: #ebf8e7;
+  font-weight: bold;
+  margin: 0 30px;
+  width: 75%;
+}
+/* HEADER STYLE ENDS */
 
 /* //DROP DOWN LIST STYLES */
-input:focus {
-  outline: none;
+.routerDaddy{
+  padding-top: 50px;
+}
+.dropDaddy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  width: 55%;
+  /* height: 100vh; */
+
+}
+.dropDaddy form {
+  padding-top: 50px;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+}
+.dropdown {
+  align-self: center;
+  width: 225px;
+  max-height: 300px;
+  overflow-y: auto;
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px grey;
+}
+.mainSearch{
+  display: flex;
+  justify-content:  space-evenly;
+  position: relative;
 }
 
-.dropdown {
-  margin: 0 auto;
+.mainSearchImg {
+  width: 30%;
+}
+.mainSearch input {
+  border-radius: 50px;
+  border-style: none;
+  border: 2px solid #00702e;
+  width: 300px;
+  height: 50px;
+  padding: 25px;
+  text-align: center;
+}
+input:placeholder-shown{
+  font-style: italic;
+  color: black;
+}
+.mainSearch  input[type='submit']{
+  margin-top: 20px;
+  border-radius: 0px;
+  background: #00702e;
+  color: #ebf8e7;
+  font-weight: bold;
   width: 200px;
-  min-height: 100px;
-  overflow-y: auto;
-  border: 1px solid lightblue;
 }
 .dropdown:active{
   border: 1px solid darkblue;
 }
 .dropdown-item {
-  border: 1px solid grey;
+  border-bottom: 1px solid rgb(184, 184, 184);
   padding: 10px 5px;
 }
-
-svg {
-  float: right;
+.searchResults{
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
+  margin: 10px 0;
+  box-shadow: 0px 0px 3px grey;
 }
+.searchResults p {
+  width: 60%;
+  padding-left:
+}
+.searchResults img {
+  width: 100px;
+  padding-right: 20px;
+}
+
+
 
 /* //DASHBOARD STYLES */
 .PieApp {
@@ -100,7 +164,6 @@ svg {
 .LineApp {
   height: 500px;
 }
-
 
 
 .dashboard {
@@ -121,12 +184,10 @@ button, input[type='submit'] {
     border: none;
     /* border-radius: 15px; */
     padding: .5rem;
-    margin: .5rem;
+    margin: 5px;
     text-decoration: none;
     background: white;
     color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 1.2rem;
     cursor: pointer;
     text-align: center;
     transition: background 250ms ease-in-out, 
@@ -148,3 +209,40 @@ input[type='submit']:focus {
   outline-offset: -4px;
 }
 
+
+/* //MEDIA QUERIES */
+@media only screen and (max-width: 600px) {
+  /* //HEADER MOBILE */
+  .mainSearch{
+    flex-direction: column;
+  }
+  .mainSearchImg{
+    width: 100%;
+  }
+  .mainSearchImg img {
+    width: 200px;
+  }
+  .dropDaddy {
+    width: 100%;
+  }
+  .profilePic {
+  display: none;
+  }
+  .headerUser {
+    padding-right: 10px;
+  }
+  header h1 {
+    padding-left: 10px;
+  }
+  /* DROPDOWN MOBILE */
+  .searchResults{
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-aro;
+    padding: 10px 10px;
+  }
+  .searchResults p {
+    width: 100%;
+  }
+}

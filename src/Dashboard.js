@@ -165,7 +165,7 @@ class Dashboard extends Component {
       firebaseArray = snapshot.val();
       console.log("in the .then of saveWeek")
       // console.log(firebaseArray)
-    }).then(() => {
+    }).then((snapshot) => {
   
       console.log("before", firebaseArray)
       firebaseArray.push(pastWeek)

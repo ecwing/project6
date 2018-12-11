@@ -105,8 +105,9 @@ class App extends Component {
     <div className="App">
       <header className="clearfix">
         <h1>Garbage Sorter</h1>
-        
-        <div className="buttons">
+
+        <div className="headerUser">
+          <div className="buttons"> 
           {this.state.user ? 
           <button id="signOut" onClick={this.logOut}>Sign Out</button>
           :
@@ -114,7 +115,6 @@ class App extends Component {
           <button id="signInGuest" onClick={this.anonLogIn}>Sign In as Guest</button> </>
           }
           </div>
-
           <div className="userImage">
           {this.state.user
             ? 
@@ -123,12 +123,12 @@ class App extends Component {
             null 
           }    
           </div>
-
+        </div>
       </header>
 
       <Router>
 
-        <div className="routerDaddy">
+        <div className="routerDaddy wrapper">
           
           <NavLink to="/">Search For Garbage</NavLink>   
           <Route exact path="/" component={Search}/>
