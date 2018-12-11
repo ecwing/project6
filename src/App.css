@@ -8,99 +8,176 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 .visuallyhidden:not(:focus):not(:active) { position: absolute; width: 1px; height: 1px; margin: -1px;border: 0;padding: 0;white-space: nowrap;clip-path: inset(100%);clip: rect(00 0 0);overflow: hidden;}
 
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-
-body { 
-  background: rgb(16, 135, 209);
-  font-size: 62.5%;
-  font-family: 'Raleway', sans-serif;
-}
-
 .App {
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-/* header styles start */
-
-.profilePic {
-  border-radius: 50%;
-}
-
-header img {
-  float: right;
-}
-
-form .goalsForm {
-  display: flex;
-  flex-direction: column;
-}
-
-header h1 {
-  float: left; 
-}
-header button {
-  float: right;
-}
- 
-header {
-  background: lightgray;
-  padding: 1rem;
+body { 
+  font-size: 62.5%;
   font-family: 'Raleway', sans-serif;
 }
+html{
+  font-size: 1.6rem;
+  background: #fcfcfc;
+}
 
+.wrapper {
+  max-width: 1600px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* HEADER STYLE START */
+header {
+  background: #ebf8e7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerUser{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 50px;
+  width: 50%;
+}
+header .buttons {
+  width: 50%;
+}
+.userImage {
+  width: 25%;
+}
+.userImage img {
+  border-radius: 50%;
+  border: 2px solid #00702e;
+}
+header h1 {
+  text-transform: uppercase;
+  display: flex;
+  padding-left: 50px;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-start;
+  letter-spacing: 1px;
+  color: #3e3e3e;
+}
+h2 {
+  text-transform: capitalize;
+}
+
+header button {
+  background: #00702e;
+  color: #ebf8e7;
+  font-weight: bold;
+  margin: 0 30px;
+  width: 75%;
+}
+/* HEADER STYLE ENDS */
+
+/* //SEARCH LIST STYLES */
+.routerDaddy{
+  padding-top: 50px;
+}
 .dropDaddy {
-  margin: 0 auto;
-  padding: 2rem 0;
-}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  width: 55%;
+  /* height: 100vh; */
 
-#downshift-0-input {
-  padding: 1rem;
-  font-size: 1.2rem;
 }
-
-/* //DROP DOWN LIST STYLES */
-input:focus {
-  outline: none;
+.dropDaddy form {
+  padding-top: 100px;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
 }
-
 .dropdown {
-  margin: 0 auto;
-  width: 200px;
-  min-height: 100px;
+  align-self: center;
+  width: 225px;
+  max-height: 300px;
   overflow-y: auto;
-  border: 1px solid lightblue;
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px grey;
+}
+.mainSearch{
+  display: flex;
+  justify-content:  space-evenly;
+  position: relative;
+}
+
+.mainSearchImg {
+  width: 30%;
+}
+.mainSearch img {
+  width: 100%;
+}
+.mainSearch input {
+  border-radius: 50px;
+  border-style: none;
+  border: 2px solid #00702e;
+  width: 300px;
+  height: 50px;
+  padding: 25px;
+  text-align: center;
+}
+input:placeholder-shown{
+  font-style: italic;
+  color: black;
+}
+.mainSearch  input[type='submit']{
+  margin-top: 20px;
+  border-radius: 0px;
+  background: #00702e;
+  color: #ebf8e7;
+  font-weight: bold;
+  width: 200px;
 }
 .dropdown:active{
   border: 1px solid darkblue;
 }
 .dropdown-item {
-  border: 1px solid grey;
+  border-bottom: 1px solid rgb(184, 184, 184);
   padding: 10px 5px;
 }
-
-svg {
-  float: right;
+.searchResults{
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
+  margin: 10px 0;
+  box-shadow: 0px 0px 3px grey;
 }
+.searchResults p {
+  width: 60%;
+  padding-left:
+}
+.searchResults img {
+  width: 100px;
+  padding-right: 20px;
+}
+/* END OF SEARCH LIST */
+
 
 /* //DASHBOARD STYLES */
 .PieApp {
   height: 500px;
+  background: #f4f4f4;
+}
+.dashboard button {
+  border-radius: 50px;
+  border: 2px solid #00702e;
+  text-align: center;
 }
 
 .LineApp {
   height: 500px;
+  background: #f4f4f4;
 }
-
 
 
 .dashboard {
@@ -113,20 +190,18 @@ svg {
   margin: 0 auto;
   font-size: 1.4rem;
 }
+/* //END OF DASHBOARD STYLES */
 
 
 /* Button Styling */
 button, input[type='submit'] {
     display: inline-block;
     border: none;
-    /* border-radius: 15px; */
-    padding: .5rem;
-    margin: .5rem;
+    padding: 10px;
+    margin: 5px;
     text-decoration: none;
     background: white;
     color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 1.2rem;
     cursor: pointer;
     text-align: center;
     transition: background 250ms ease-in-out, 
@@ -135,16 +210,58 @@ button, input[type='submit'] {
     -moz-appearance: none;
 }
 
-button:hover,
-button:focus,
-input[type='submit']:hover,
-input[type='submit']:focus {
-  background: #304f39;
-}
-
 button:focus,
 input[type='submit']:focus {
-  outline: 1px solid #fff;
-  outline-offset: -4px;
+  
 }
 
+
+/* //MEDIA QUERIES */
+@media only screen and (max-width: 600px) {
+  /* //HEADER MOBILE */
+  .profilePic {
+    display: none;
+  }
+  .headerUser {
+    padding-right: 5px;
+  }
+  header .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .buttons button {
+    margin-bottom: 5px;
+    font-size: 1
+  }
+  header h1 {
+    padding-left: 10px;
+  }
+  /* DROPDOWN MOBILE */
+  .searchResults{
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-aro;
+    padding: 10px 10px;
+  }
+  .mainSearch{
+    flex-direction: column;
+  }
+  .mainSearchImg{
+    width: 100%;
+  }
+  .mainSearchImg img {
+    width: 200px;
+  }
+  .dropDaddy {
+    width: 100%;
+  }
+  .dropDaddy form {
+    padding-top: 50px;
+  }
+  .searchResults p {
+    width: 100%;
+  }
+}

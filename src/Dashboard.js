@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
 import './App.css';
 import firebase from "./firebase";
+import Search from "./Search";
 import Responsivepie from "./ResponsivePie";
 import Responsiveline from "./ResponsiveLine";
 import swal from 'sweetalert';
@@ -11,31 +12,36 @@ class Dashboard extends Component {
     super(props)
     this.state = {
       lineGraph: null,
-      user: this.props.user,
+      user: {},
       greenBags: 0,
       garbageBags: 0,
-      blueBags: 0
+      blueBags: 0,
+      showPie: true
     }
   }
+
+  componentDidMount(){
+    if (this.props.user !== null) {
+      this.currentFunction()
+      this.arrayOfEight()
+    }
+  }
+
 
   componentDidUpdate(prevProp){
     console.log("PREVPROP", prevProp)
     // console.log("prevstate", prevState)
-
       if (this.props.user !== prevProp.user && this.props.user !== null) {
         this.arrayOfEight()
         this.currentFunction()
       }
-
   }
-
+  
   currentFunction = () => {
     //if the prop if different than the previous prop, then only updat state. 
     // this.arrayOfEight();
     //sets state using the CURRENT firebase
     const dbRef = firebase.database().ref(`/${this.props.user.uid}/current`);
-
-
     let firebaseState;
     //making sure state is set to 0 and not undefined on a promise
     dbRef.on('value', (snapshot) => {
@@ -44,7 +50,7 @@ class Dashboard extends Component {
         garbageBags: firebaseState.garbageBags,
         greenBags: firebaseState.greenBags,
         blueBags: firebaseState.blueBags
-      });
+      })
     });
   }
 
@@ -102,7 +108,6 @@ class Dashboard extends Component {
       if (!snapshot.exists()) {
         dbRefpast.update(empty)
       }
-      
     }).then((snapshot) => {
       //create variable of the snapshot of PAST node and set it as State
       const firebaseStatePast = snapshot.val();
@@ -165,7 +170,7 @@ class Dashboard extends Component {
       firebaseArray = snapshot.val();
       console.log("in the .then of saveWeek")
       // console.log(firebaseArray)
-    }).then(() => {
+    }).then((snapshot) => {
   
       console.log("before", firebaseArray)
       firebaseArray.push(pastWeek)
@@ -191,6 +196,18 @@ class Dashboard extends Component {
       }
     })
   }
+  switchView = () => {
+    this.state.showPie ?
+      this.setState({
+        showPie: false,
+      })
+      :
+      this.setState({
+        showPie: true
+      })
+  }
+
+
 
   render() {
     if (!this.props.user) return null;
@@ -200,6 +217,10 @@ class Dashboard extends Component {
         (<div className="dashboard">
         
             <main>
+              <Link to="/">Return to Search</Link>
+              <Route exact path="/" component={Search}/>
+              <button onClick={this.switchView}>Switch View</button>
+
               <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4>
 
               <form className="goalsForm" onSubmit={this.onSubmitDashboard}>
@@ -235,39 +256,13 @@ class Dashboard extends Component {
                 <input type="submit" />
               </form>
 
-              <Responsivepie
+            {this.state.showPie ? 
+                <Responsivepie
                   garbageBags={this.state.garbageBags}
                   greenBags={this.state.greenBags}
                   blueBags={this.state.blueBags}
-              />
-
-
-              <Link to="/dashboard/linegraph">Click here for historical data idk</Link>
-
-              {/* <Route path="/linegraph" component={Responsiveline} /> */}
-
-              {/* <Responsiveline lineGraph={this.state.lineGraph}/> */}
-
-              <Route path="/dashboard/linegraph"
-                render={() => {
-                return (
-                  <p>hiiiiii</p>
-                )
-              }}/>
-
-                {/* // <Responsiveline
-                // lineGraph={this.state.lineGraph}/>)
-                // }}
-                // /> */}
-               
-
-              {/* <Route path="/dashboard/linegraph"
-                render={() => {
-                  return (
-                    <p> hi </p>
-                  )}}/> */}
-
-              
+                 /> : 
+                <Responsiveline lineGraph={this.state.lineGraph} />} 
 
 
             </main>

@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Downshift from 'downshift'
+import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
+import Dashboard from "./Dashboard";
 import { noAuto } from '@fortawesome/fontawesome-svg-core';
 
 class Search extends Component {
@@ -131,7 +133,23 @@ class Search extends Component {
   render() {
     return (
       <div className="mainSearch">
-        <div className="clearfix"> 
+
+        <Link to="/dashboard">Go to Your Dashboard</Link>
+
+        <Route
+          path="/dashboard/"
+          render=
+          {(props) =>
+            <Dashboard
+              user={this.state.user}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+            />}
+        />
+
+
+        <div className="mainSearchImg">
+          <img src={require("./assets/Racoon.png")}/>
         </div>
         <Downshift
           onChange={selection => 
@@ -158,53 +176,24 @@ class Search extends Component {
             highlightedIndex,
             selectedItem,
           }) => (
-              <div className="dropDaddy clearfix"
-                style={{
-                  margin: '0 auto',
-                  padding: '2rem 3rem',
-                  width: '80%',
-                  position: 'relative',
-                  border: '1px solid black'
-                }} >
-
-                <img
-                  style={{
-                    width: '30%',
-                    float: 'left',
-                    margin: '0 auto',
-                  }}
-                  src={require('./assets/smileyGarbage.jpg')} alt="cute smiling garbage cans" /> 
-
-                <form onSubmit={this.handleSubmit}
-                  style={{
-                    margin: '0 auto',
-                    // padding: '2 rem',
-                    width: '100%',
-                    // float: 'left',
-                    border: '2px solid limegreen'
-                  }}
->
+              <div className="dropDaddy">
+                <form onSubmit={this.handleSubmit}>
                   <label {...getLabelProps()}className="visuallyhidden">Enter items to learn how to dispose</label>
-                  <input
+                  <input 
                   {...getInputProps({
                     isOpen,
                     Placeholder: "Enter items to search"
                   })}
-                  style={{
-                    font: '1.2rem'
-                  }}
                     type="text"
+                    required="true"
                     id="searchInput"
                     value={this.state.searchInput}
                     onChange={this.handleSearch} 
                     {...getInputProps()} />
                   <input 
                   type="Submit"
-                  defaultValue="Garbage Day"
-                  style={{
-                    font: '1.2rem',
-                    padding: '1.2rem'
-                  }}/>
+                  defaultValue="Search"
+                  />
                 </form>
                 
                 {selectedItem ? (
@@ -229,12 +218,8 @@ class Search extends Component {
                 {isOpen ? (
                   <div className="dropdown" 
                   style={{
-                    margin: '0 0 0 5rem',
                     font: '1.2rem',
-                    float: 'left',
-                    border: '2px solid orange',
-                    height: '300px',
-                    // position: 'absolute'
+
                   }}
  >
                     {this.state.keywordList
@@ -261,20 +246,9 @@ class Search extends Component {
 
                 {this.state.submitSearch.map(result => {
                   return (
-                    <div key={result.id} className="searchResults"
-                      style={{
-                        float: 'right',
-                        margin: '0 auto',
-                        width: '30%',
-                        padding: '1rem',
-                        border: '1px solid purple'
-                      }}>
-                      {/* <h2>{this.state.searchInput}</h2> */}
-                      <p >{this.decodeHtml(`${result.body}`)}</p>
-                      <p>{result.category}</p>
-
+                    <div key={result.id} className="searchResults">
                       <div>{this.imagePicker(result)}</div>
-
+                      <p>{this.decodeHtml(`${result.body}`)}</p>
                     </div>
                   )
                 })}
@@ -282,28 +256,7 @@ class Search extends Component {
               </div>
             )}
         </Downshift>
-                      
-        {/* moved all of this up for styling
-        
-        {this.state.submitSearch.map(result => {
-          return (
-            <div key={result.id} className="searchResults"
-              style={{
-                // float: 'left',
-                margin: '0 auto',
-                width: '20%',
-                padding: '1rem',
-                border: '1px solid purple'
-              }}>
-              <h2>{this.state.searchInput}</h2>
-              <>{this.decodeHtml(`${result.body}`)}</>
-            </div>
-          )
-        })}
- */}
       </div> ) // end of render 
     }
-      
-
 }
 export default Search;
