@@ -130,12 +130,22 @@ class Search extends Component {
     console.log(answers)
   };
 
+  clearResults = () => {
+    this.setState({
+      submitSearch: [],
+      searchInput: ""
+    })
+
+  }
+
   render() {
     return (
       <div className="mainSearch">
 
+        {this.props.user ? 
         <Link to="/dashboard">Go to Your Dashboard</Link>
-
+          : null
+        }
         <Route
           path="/dashboard/"
           render=
@@ -152,10 +162,15 @@ class Search extends Component {
           <img src={require("./assets/Racoon.png")}/>
         </div>
         <Downshift
-          onChange={selection => 
-            this.setState({
-            placeholder: selection.name,
-          })}        
+
+        
+        onChange={selection => {
+          if (selection === null) {
+            return this.setState({ placeholder: 'Default' });
+          }
+          this.setState({ placeholder: selection.name });
+        }}
+
           itemToString={item => (item ? item.name : '')}
           style={{
             margin: '0 auto',
@@ -201,10 +216,10 @@ class Search extends Component {
                  <svg
                   viewBox="0 0 20 20"
                   preserveAspectRatio="none"
-                  width={12}
+                  width={20}
                   stroke="#000"
                   strokeWidth="1.1px"
-                  onClick={clearSelection}
+                  onClick={ () => { clearSelection(); this.clearResults() }}
                   aria-label="clear selection">
 
                   <path d="M1,1 L19,19" />
