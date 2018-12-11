@@ -4,6 +4,7 @@ import firebase from "firebase";
 import "./App.css";
 import Search from "./Search";
 import Dashboard from "./Dashboard";
+import DailyTip from "./DailyTip";
 import Responsiveline from "./ResponsiveLine";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -151,6 +152,7 @@ class App extends Component {
             />}
           />
         </div>
+      <DailyTip />
       </div>
     </Router>
       

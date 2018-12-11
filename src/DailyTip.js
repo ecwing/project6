@@ -70,7 +70,7 @@ class Text extends Component {
             <div className="center-div">
                 <h1>{this.props.title}</h1>
                 <p>{this.props.tip}</p>
-                <img src={this.props.picture} height="200" alt="logo"/>
+                {/* <img src={this.props.picture} height="200" alt="logo"/> */}
             </div>
         )
     }

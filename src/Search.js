@@ -5,6 +5,8 @@ import Downshift from 'downshift'
 import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import { noAuto } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core'
 
 class Search extends Component {
   constructor() {
@@ -194,49 +196,53 @@ class Search extends Component {
               <div className="dropDaddy">
                 <form onSubmit={this.handleSubmit}>
                   <label {...getLabelProps()}className="visuallyhidden">Enter items to learn how to dispose</label>
-                  <input 
+                  <input  
                   {...getInputProps({
                     isOpen,
                     Placeholder: "Enter items to search"
                   })}
+                    className="inputField"
                     type="text"
                     required="true"
                     id="searchInput"
                     value={this.state.searchInput}
                     onChange={this.handleSearch} 
-                    {...getInputProps()} />
+                    {...getInputProps()} 
+                    
+                    />
                   <input 
                   type="Submit"
                   defaultValue="Search"
                   />
                 </form>
-                
-                {selectedItem ? (
-                  //placing an SVG of a black X trying to make it ON click clear search using clearSelection.method and it errors out.
-                 <svg
-                  viewBox="0 0 20 20"
-                  preserveAspectRatio="none"
-                  width={20}
-                  stroke="#000"
-                  strokeWidth="1.1px"
-                  onClick={ () => { clearSelection(); this.clearResults() }}
-                  aria-label="clear selection">
+                    <svg
+                      style={{
+                          cursor: "pointer",
+                          position: "relative",
+                          bottom: "112px",
+                          left: "120px",
+                          color: "#00702e"
+                          
+                      }}
+                      className="svgStyle"
+                      aria-hidden="true"
+                      width={20}
+                      strokeWidth="1.1px"
+                      onClick={ () => { clearSelection(); this.clearResults() }} 
+                      data-prefix="far" 
+                      data-icon="times-circle" 
+                      class="svg-inline--fa fa-times-circle fa-w-16" 
+                      role="img" xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 512 512">
+                      <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm101.8-262.2L295.6 256l62.2 62.2c4.7 4.7 4.7 12.3 0 17l-22.6 22.6c-4.7 4.7-12.3 4.7-17 0L256 295.6l-62.2 62.2c-4.7 4.7-12.3 4.7-17 0l-22.6-22.6c-4.7-4.7-4.7-12.3 0-17l62.2-62.2-62.2-62.2c-4.7-4.7-4.7-12.3 0-17l22.6-22.6c4.7-4.7 12.3-4.7 17 0l62.2 62.2 62.2-62.2c4.7-4.7 12.3-4.7 17 0l22.6 22.6c4.7 4.7 4.7 12.3 0 17z"></path>
+                      </svg>                
 
-                  <path d="M1,1 L19,19" />
-                  <path d="M19,1 L1,19" />
-                </svg>          
-                ) : (null)
-                    // <ControllerButton {...getToggleButtonProps()}>
-                    //   <ArrowIcon isOpen={isOpen} />
-                    // </ControllerButton>
-                  }
+
                 {isOpen ? (
                   <div className="dropdown" 
                   style={{
                     font: '1.2rem',
-
-                  }}
- >
+                  }}>
                     {this.state.keywordList
                       .filter(item => !inputValue || item.name.includes(inputValue))
                       .map((item, index) => (
@@ -258,6 +264,7 @@ class Search extends Component {
                 ) : null}
 
                 <h2>{this.state.searchInput}</h2>
+                <FontAwesomeIcon icon="circle" />
 
                 {this.state.submitSearch.map(result => {
                   return (
