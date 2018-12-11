@@ -102,6 +102,7 @@ class App extends Component {
 
   render() {
     return (
+    <Router>
     <div className="App">
       <header className="clearfix">
         <h1>Garbage Sorter</h1>
@@ -126,36 +127,26 @@ class App extends Component {
         </div>
       </header>
 
-      <Router>
-
         <div className="routerDaddy wrapper">
-          
-          <NavLink to="/">Search For Garbage</NavLink>   
+
           <Route exact path="/" component={Search}/>
-
-          {/* <Search /> */}
-
-          {/* <NavLink to="/">Home </NavLink> */}
-          <Link to="/dashboard">Go to Your Dashboard</Link>
-
-
-          <Route exact 
-          path="/dashboard" 
-          render=
-          {(props) => 
-          <Dashboard 
-          user={this.state.user}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          />}
+          <Route
+            path="/dashboard"
+            render=
+            {(props) =>
+            <Dashboard
+            user={this.state.user}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            />}
           />
-
         </div>
-      </Router>
+      </div>
+    </Router>
       
-    </div>
-    );
-  }
+  
+  );
+}
 }
 
 export default App;

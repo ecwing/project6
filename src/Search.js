@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Downshift from 'downshift'
+import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
+import Dashboard from "./Dashboard";
 import { noAuto } from '@fortawesome/fontawesome-svg-core';
 
 class Search extends Component {
@@ -131,8 +133,21 @@ class Search extends Component {
   render() {
     return (
       <div className="mainSearch">
-        {/* <div className="clearfix"> 
-        </div> */}
+
+        <Link to="/dashboard">Go to Your Dashboard</Link>
+
+        <Route
+          path="/dashboard/"
+          render=
+          {(props) =>
+            <Dashboard
+              user={this.state.user}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+            />}
+        />
+
+
         <div className="mainSearchImg">
           <img src={require("./assets/Racoon.png")}/>
         </div>
@@ -164,12 +179,13 @@ class Search extends Component {
               <div className="dropDaddy">
                 <form onSubmit={this.handleSubmit}>
                   <label {...getLabelProps()}className="visuallyhidden">Enter items to learn how to dispose</label>
-                  <input
+                  <input 
                   {...getInputProps({
                     isOpen,
                     Placeholder: "Enter items to search"
                   })}
                     type="text"
+                    required="true"
                     id="searchInput"
                     value={this.state.searchInput}
                     onChange={this.handleSearch} 

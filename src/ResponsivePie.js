@@ -6,18 +6,9 @@ import './App.css';
 // npm install @nivo/pie --save NPM INSTALL THAT 
 
 class Responsivepie extends Component {
-  constructor(props){
-  super(props)
-    this.state = {
-      greenBags: this.props.greenBags,
-      garbageBags: this.props.garbageBags,
-      blueBags: this.props.blueBags
-    }
-  }
-  
-
 
    render() {
+      if (!this.props) return null && console.log("you fail"); {
       return (
          <div className="PieApp">
             <ResponsivePie
@@ -115,6 +106,6 @@ class Responsivepie extends Component {
                ]}
             />
          </div>
-    )}}
+    )}}}
 
 export default Responsivepie;
