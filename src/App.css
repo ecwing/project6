@@ -20,9 +20,7 @@ html{
   font-size: 1.6rem;
   background: #fcfcfc;
 }
-img{
-  width: 100%;
-}
+
 .wrapper {
   max-width: 1600px;
   width: 90%;
@@ -43,7 +41,13 @@ header {
   padding-right: 50px;
   width: 50%;
 }
-.profilePic {
+header .buttons {
+  width: 50%;
+}
+.userImage {
+  width: 25%;
+}
+.userImage img {
   border-radius: 50%;
   border: 2px solid #00702e;
 }
@@ -70,7 +74,7 @@ header button {
 }
 /* HEADER STYLE ENDS */
 
-/* //DROP DOWN LIST STYLES */
+/* //SEARCH LIST STYLES */
 .routerDaddy{
   padding-top: 50px;
 }
@@ -85,7 +89,7 @@ header button {
 
 }
 .dropDaddy form {
-  padding-top: 50px;
+  padding-top: 100px;
   display: flex; 
   flex-direction: column;
   align-items: center;
@@ -107,6 +111,9 @@ header button {
 
 .mainSearchImg {
   width: 30%;
+}
+.mainSearch img {
+  width: 100%;
 }
 .mainSearch input {
   border-radius: 50px;
@@ -153,16 +160,23 @@ input:placeholder-shown{
   width: 100px;
   padding-right: 20px;
 }
-
+/* END OF SEARCH LIST */
 
 
 /* //DASHBOARD STYLES */
 .PieApp {
   height: 500px;
+  background: #f4f4f4;
+}
+.dashboard button {
+  border-radius: 50px;
+  border: 2px solid #00702e;
+  text-align: center;
 }
 
 .LineApp {
   height: 500px;
+  background: #f4f4f4;
 }
 
 
@@ -176,14 +190,14 @@ input:placeholder-shown{
   margin: 0 auto;
   font-size: 1.4rem;
 }
+/* //END OF DASHBOARD STYLES */
 
 
 /* Button Styling */
 button, input[type='submit'] {
     display: inline-block;
     border: none;
-    /* border-radius: 15px; */
-    padding: .5rem;
+    padding: 10px;
     margin: 5px;
     text-decoration: none;
     background: white;
@@ -196,23 +210,42 @@ button, input[type='submit'] {
     -moz-appearance: none;
 }
 
-button:hover,
-button:focus,
-input[type='submit']:hover,
-input[type='submit']:focus {
-  background: #304f39;
-}
-
 button:focus,
 input[type='submit']:focus {
-  outline: 1px solid #fff;
-  outline-offset: -4px;
+  
 }
 
 
 /* //MEDIA QUERIES */
 @media only screen and (max-width: 600px) {
   /* //HEADER MOBILE */
+  .profilePic {
+    display: none;
+  }
+  .headerUser {
+    padding-right: 5px;
+  }
+  header .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .buttons button {
+    margin-bottom: 5px;
+    font-size: 1
+  }
+  header h1 {
+    padding-left: 10px;
+  }
+  /* DROPDOWN MOBILE */
+  .searchResults{
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-aro;
+    padding: 10px 10px;
+  }
   .mainSearch{
     flex-direction: column;
   }
@@ -225,22 +258,8 @@ input[type='submit']:focus {
   .dropDaddy {
     width: 100%;
   }
-  .profilePic {
-  display: none;
-  }
-  .headerUser {
-    padding-right: 10px;
-  }
-  header h1 {
-    padding-left: 10px;
-  }
-  /* DROPDOWN MOBILE */
-  .searchResults{
-    width: 100%;
-    flex-direction: column;
-    display: flex;
-    justify-content: space-aro;
-    padding: 10px 10px;
+  .dropDaddy form {
+    padding-top: 50px;
   }
   .searchResults p {
     width: 100%;

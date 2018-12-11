@@ -5,30 +5,16 @@ import './App.css';
 
 // npm install @nivo/pie --save NPM INSTALL THAT 
 
-
 class Responsivepie extends Component {
   constructor(props){
   super(props)
     this.state = {
       greenBags: this.props.greenBags,
       garbageBags: this.props.garbageBags,
-      blueBags: this.props.blueBags,
-      condition: true,
-      newTest: 2
+      blueBags: this.props.blueBags
     }
   }
-
-  // checkingState = () => {    
-  //   if (this.state.newTest === 0)
-  //   {
-  //   this.setState({
-  //     condition: false
-  //   })
-  // } else {
-  //   this.setState({
-  //     condition: true
-  //   })
-  // }}
+  
 
 
    render() {
@@ -37,47 +23,45 @@ class Responsivepie extends Component {
             <ResponsivePie
                data={[
                   {
-                     "id": "garbage",
-                     "label": "garbage",
+                     "id": "Garbage",
+                     "label": "Garbage",
                      "value": this.props.garbageBags,
-                     "color": "#FFFFFF"
+                     "color": "hsl(0, 0%, 67%)",
                   },
                   {
-                     "id": "blueBin",
-                     "label": "blueBin",
+                     "id": "Recycling",
+                     "label": "Recycling",
                      "value": this.props.blueBags,
                      "color": "hsl(243, 70%, 50%)"
                   },
                   {
-                     "id": "greenBin",
-                     "label": "greenBin",
+                     "id": "Green Bin",
+                     "label": "Green Bin",
                      "value": this.props.greenBags,
                      "color": "hsl(316, 70%, 50%)"
                   },
                ]}
                margin={{
-                  "top": 40,
-                  "right": 80,
-                  "bottom": 80,
-                  "left": 80
+                  "top": 20,
+                  "right": 50,
+                  "bottom": 40,
+                  "left": 50
                }}
                innerRadius={0.25}
                padAngle={0.7}
                cornerRadius={3}
-               colors="set1"
+               colors={"set1"}
                colorBy="id"
-               borderWidth={1}
-               borderColor="inherit:darker(0.6)"
                radialLabelsSkipAngle={10}
+               radialLabelsLinkStrokeWidth={50}
                radialLabelsTextXOffset={6}
-               radialLabelsTextColor="#333333"
+               radialLabelsTextColor="#00702e"
                radialLabelsLinkOffset={0}
                radialLabelsLinkDiagonalLength={16}
                radialLabelsLinkHorizontalLength={24}
-               radialLabelsLinkStrokeWidth={1}
-               radialLabelsLinkColor="inherit"
+               radialLabelsLinkStrokeWidth={2}
                slicesLabelsSkipAngle={10}
-               slicesLabelsTextColor="#333333"
+               slicesLabelsTextColor="#000"
                animate={true}
                motionStiffness={90}
                motionDamping={15}
@@ -85,7 +69,7 @@ class Responsivepie extends Component {
                   {
                      "id": "dots",
                      "type": "patternDots",
-                     "background": "inherit",
+                     "background": "hsl(0, 0%, 67%)",
                      "color": "rgba(255, 255, 255, 0.3)",
                      "size": 4,
                      "padding": 1,
@@ -102,7 +86,12 @@ class Responsivepie extends Component {
                   }
                ]}
                fill={[
-                 
+                  {
+                     "match": {
+                        "id": "Garbage"
+                     },
+                     "id": "dots"
+                  },
                ]}
                legends={[
                   {
