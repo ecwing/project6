@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router, Route, Link, NavLink} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect, Link, NavLink} from "react-router-dom";
 import firebase from "firebase";
 import "./App.css";
 import Search from "./Search";
@@ -107,6 +107,8 @@ class App extends Component {
       <header className="clearfix">
         <h1>Garbage Sorter</h1>
 
+        {!this.state.user && <Redirect to="/" />}
+
         <div className="headerUser">
           <div className="buttons"> 
           {this.state.user ? 
@@ -129,7 +131,16 @@ class App extends Component {
 
         <div className="routerDaddy wrapper">
 
-          <Route exact path="/" component={Search}/>
+          <Route exact
+          path="/"
+          render=
+          {(props) =>
+          <Search
+        user={this.state.user}
+        />}
+      />
+
+
           <Route
             path="/dashboard"
             render=
