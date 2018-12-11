@@ -11,6 +11,10 @@ class Responsivepie extends Component {
       if (!this.props) return null && console.log("you fail"); {
       return (
          <div className="PieApp">
+            {this.props.greenBags === 0 && this.props.blueBags === 0 && this.props.garbageBags === 0 ? <div className="placeHolderStuff">
+            <h3>Start Logging Your Weekly Garbage</h3>
+            <img src={require('./assets/Racoon.png')} alt="A illustration of a Racoon in a trash can" />
+            </div> :
             <ResponsivePie
                data={[
                   {
@@ -104,7 +108,7 @@ class Responsivepie extends Component {
                      ]
                   }
                ]}
-            />
+               />}
          </div>
     )}}}
 

@@ -167,6 +167,9 @@ input:placeholder-shown{
 .PieApp {
   height: 500px;
   background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .dashboard button {
   border-radius: 50px;
@@ -178,17 +181,22 @@ input:placeholder-shown{
   height: 500px;
   background: #f4f4f4;
 }
-
-
 .dashboard {
   border:2px solid black;
 }
-
 .dashboardAnon {
   width: 40%;
   text-align: center;
   margin: 0 auto;
   font-size: 1.4rem;
+}
+/* //Pie chart styles */
+.placeHolderStuff {
+  color: #00702e;
+  font-size: 1rem;
+}
+.placeHolderStuff img {
+  width: 30%;
 }
 /* //END OF DASHBOARD STYLES */
 
