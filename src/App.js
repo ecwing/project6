@@ -23,11 +23,6 @@ class App extends Component {
     super();
     this.state = {
       user: null,
-      newGoal: "",
-      newPattern: "",
-      userGoals: {},
-      metGoal: null,
-      numberOfBags: 0
     }
   };
 
@@ -98,14 +93,18 @@ class App extends Component {
   }
 
   anonLogIn = () => {
-    auth.signInAnonymously()
+    auth.signInAnonymously().then((result) => {
+      this.setState({
+        user: result.user
+      })
+    })
   }
 
   render() {
     return (
     <Router>
     <div className="App">
-      <header className="clearfix">
+      <header>
         <h1>Garbage Sorter</h1>
 
         {!this.state.user && <Redirect to="/" />}
@@ -130,7 +129,7 @@ class App extends Component {
         </div>
       </header>
 
-        <div className="routerDaddy wrapper">
+        <div className="routerDaddy">
 
           <Route exact
           path="/"

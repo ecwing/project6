@@ -134,10 +134,10 @@ class Responsiveline extends Component {
                      }
                   ]}
                   margin={{
-                     "top": 0,
+                     "top": 50,
                      "right": 100,
-                     "bottom": 100,
-                     "left": 100
+                     "bottom": 50,
+                     "left": 75
                   }}
                   xScale={{
                      "type": "point"
@@ -154,12 +154,12 @@ class Responsiveline extends Component {
                      "tickPadding": 5,
                      "tickRotation": 0,
                      "legend": "Weeks",
-                     "legendOffset": 36,
+                     "legendOffset": 26,
                      "legendPosition": "middle"
                   }}
                   axisLeft={{
                      "orient": "left",
-                     "tickSize": 5,
+                     "tickSize": 2,
                      "tickPadding": 5,
                      "tickRotation": 0,
                      "legend": "# of Bags",
@@ -169,8 +169,8 @@ class Responsiveline extends Component {
                   enableGridY={true}
                   colors="category10"
                   curve={"catmullRom"}
-                  lineWidth={4}
-                  lineHeight={5}
+                  lineWidth={3}
+                  lineHeight={3}
                   enableDots={true}
                   dotSize={10}
                   dotColor="inherit:darker(0.3)"
