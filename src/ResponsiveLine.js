@@ -19,119 +19,119 @@ class Responsiveline extends Component {
          <ResponsiveLine
                   data={[
                      {
-                        "id": "Garbage",
+                        "id": "Recycling",
                         "color": "hsl(215, 70%, 50%)",
                         "data": [
-                           {
-                              "x": "1",
-                              "y": this.props.lineGraph[0].garbageBags
-                           },
-                           {
-                              "x": "2",
-                              "y": this.props.lineGraph[1].garbageBags
-                           },
-                           {
-                              "x": "3",
-                              "y": this.props.lineGraph[2].garbageBags
-                           },
-                           {
-                              "x": "4",
-                              "y": this.props.lineGraph[3].garbageBags
-                           },
-                           {
-                              "x": "5",
-                              "y": this.props.lineGraph[4].garbageBags
-                           },
-                           {
-                              "x": "6",
-                              "y": this.props.lineGraph[5].garbageBags
-                           },
-                           {
-                              "x": "7",
-                              "y": this.props.lineGraph[6].garbageBags
-                           },
-                           {
-                              "x": "8",
-                              "y": this.props.lineGraph[7].garbageBags
-                           },
-                        ]
-                     },
-                     {
-                        "id": "Recycling",
-                        "color": "hsl(127, 70%, 50%)",
-                        "data": [
-                           {
+                            {
                               "x": "1",
                               "y": this.props.lineGraph[0].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "2",
                               "y": this.props.lineGraph[1].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "3",
                               "y": this.props.lineGraph[2].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "4",
                               "y": this.props.lineGraph[3].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "5",
                               "y": this.props.lineGraph[4].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "6",
                               "y": this.props.lineGraph[5].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "7",
                               "y": this.props.lineGraph[6].blueBags
-                           },
-                           {
+                            },
+                            {
                               "x": "8",
                               "y": this.props.lineGraph[7].blueBags
-                           }
+                            },
                         ]
                      },
                      {
+                        "id": "Garbage",
+                        "color": "hsl(0, 0%, 67%)",
+                        "data": [
+                            {
+                              "x": "1",
+                              "y": this.props.lineGraph[0].garbageBags
+                            },
+                            {
+                              "x": "2",
+                              "y": this.props.lineGraph[1].garbageBags
+                            },
+                            {
+                              "x": "3",
+                              "y": this.props.lineGraph[2].garbageBags
+                            },
+                            {
+                              "x": "4",
+                              "y": this.props.lineGraph[3].garbageBags
+                            },
+                            {
+                              "x": "5",
+                              "y": this.props.lineGraph[4].garbageBags
+                            },
+                            {
+                              "x": "6",
+                              "y": this.props.lineGraph[5].garbageBags
+                            },
+                            {
+                              "x": "7",
+                              "y": this.props.lineGraph[6].garbageBags
+                            },
+                            {
+                              "x": "8",
+                              "y": this.props.lineGraph[7].garbageBags
+                            }
+                          ]
+                      },
+                      {
                         "id": "Green",
                         "color": "hsl(58, 70%, 50%)",
                         "data": [
-                           {
+                            {
                               "x": "1",
                               "y": this.props.lineGraph[0].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "2",
                               "y": this.props.lineGraph[1].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "3",
                               "y": this.props.lineGraph[2].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "4",
                               "y": this.props.lineGraph[3].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "5",
                               "y": this.props.lineGraph[4].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "6",
                               "y": this.props.lineGraph[5].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "7",
                               "y": this.props.lineGraph[6].greenBags
-                           },
-                           {
+                            },
+                            {
                               "x": "8",
                               "y": this.props.lineGraph[7].greenBags
-                           }
+                            }
                         ]
-                     }
+                      }
                   ]}
                   margin={{
                      "top": 50,
@@ -174,8 +174,6 @@ class Responsiveline extends Component {
                   enableDots={true}
                   dotSize={10}
                   dotColor="inherit:darker(0.3)"
-                  // yScale={1}
-                  // enableStackTooltip={false}
                   dotBorderWidth={2}
                   dotBorderColor="#ffffff"
                   enableDotLabel={true}

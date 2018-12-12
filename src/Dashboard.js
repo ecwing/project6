@@ -249,6 +249,7 @@ class Dashboard extends Component {
 
             <div className="buttonBoxGallery wrapper">
               <div className="buttonBox">
+                <img src={require('./assets/garbageIcon.png')} alt="An icon of a garbage bin" />
                 <label className="visuallyhidden">Number of Garbage Bags</label>
                 <button
                   id="garbageBags"
@@ -256,35 +257,34 @@ class Dashboard extends Component {
                   type="number"
                   value={this.state.garbageBags}
                   onClick={this.addBag} >
-                <img src={require('./assets/garbageIcon.png')} alt="An icon of a garbage bin" />
                   Garbage {this.state.garbageBags}
                 </button>
               </div>
           
 
               <div className="buttonBox">
-                <label className="visuallyhidden">Number of compost bags</label>
+                <img src={require('./assets/greenbinIcon.png')} alt="an Icon of a GreenBin" />
+                <label className="visuallyhidden">Number of Compost Bags</label>
                 <button
                   id="greenBags"
                   data-bag={this.state.greenBags}
                   type="number"
                   value={this.state.greenBags}
                   onClick={this.addBag} >
-                <img src={require('./assets/greenbinIcon.png')} alt="an Icon of a GreenBin" />
                   Green Bin {this.state.greenBags}
                 </button>
               </div>
                 
 
               <div className="buttonBox">
-                <label className="visuallyhidden">Number of recycling bags</label>
+                <img src={require('./assets/recyclingIcon.png')} alt="an Icon of a recycling bin" />
+                <label className="visuallyhidden">Number of Recycling Bags</label>
                 <button
                   id="blueBags"
                   data-bag={this.state.blueBags}
                   type="number"
                   value={this.state.blueBags}
                   onClick={this.addBag} >
-                <img src={require('./assets/recyclingIcon.png')} alt="an Icon of a GreenBin" />
                   Recyling {this.state.blueBags}
                 </button>
               </div>
