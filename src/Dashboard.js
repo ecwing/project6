@@ -233,7 +233,11 @@ class Dashboard extends Component {
         {this.props.user ?
         (<div className="dashboard">
             <main>
-              <Link to="/">Return to Search</Link>
+
+              <div className="arrowLeft">
+                <Link to="/"><img src={require("./assets/arrowLeft.png")} alt="arrow pointing left" /> Return to Search  </Link>
+              </div>
+
               <Route exact path="/" component={Search}/>
               <button onClick={this.switchView}>Switch View</button>
 
