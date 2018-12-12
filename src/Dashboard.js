@@ -237,8 +237,6 @@ class Dashboard extends Component {
               <Route exact path="/" component={Search}/>
               <button onClick={this.switchView}>Switch View</button>
 
-              {/* <h4>{this.props.user ? `Welcome to your dashboard ${this.props.user.displayName}!` : null} </h4> */}
-
             {this.state.showPie ? 
                 <Responsivepie
                 garbageBags={this.state.garbageBags}
@@ -252,13 +250,13 @@ class Dashboard extends Component {
             <div className="buttonBoxGallery wrapper">
               <div className="buttonBox">
                 <label className="visuallyhidden">Number of Garbage Bags</label>
-                <img src={require('./assets/garbageIcon.png')} alt="An icon of a garbage bin" />
                 <button
                   id="garbageBags"
                   data-bag={this.state.garbageBags}
                   type="number"
                   value={this.state.garbageBags}
                   onClick={this.addBag} >
+                <img src={require('./assets/garbageIcon.png')} alt="An icon of a garbage bin" />
                   Garbage {this.state.garbageBags}
                 </button>
               </div>
@@ -266,13 +264,13 @@ class Dashboard extends Component {
 
               <div className="buttonBox">
                 <label className="visuallyhidden">Number of compost bags</label>
-                <img src={require('./assets/greenbinIcon.png')} alt="an Icon of a GreenBin" />
                 <button
                   id="greenBags"
                   data-bag={this.state.greenBags}
                   type="number"
                   value={this.state.greenBags}
                   onClick={this.addBag} >
+                <img src={require('./assets/greenbinIcon.png')} alt="an Icon of a GreenBin" />
                   Green Bin {this.state.greenBags}
                 </button>
               </div>
@@ -280,13 +278,13 @@ class Dashboard extends Component {
 
               <div className="buttonBox">
                 <label className="visuallyhidden">Number of recycling bags</label>
-                <img src={require('./assets/recyclingIcon.png')} alt="an Icon of a GreenBin" />
                 <button
                   id="blueBags"
                   data-bag={this.state.blueBags}
                   type="number"
                   value={this.state.blueBags}
                   onClick={this.addBag} >
+                <img src={require('./assets/recyclingIcon.png')} alt="an Icon of a GreenBin" />
                   Recyling {this.state.blueBags}
                 </button>
               </div>

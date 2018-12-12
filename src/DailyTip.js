@@ -68,7 +68,7 @@ class Text extends Component {
     render() {
         return (
             <div className="center-div">
-                <h1>{this.props.title}</h1>
+                <h3>{this.props.title}</h3>
                 <p>{this.props.tip}</p>
                 {/* <img src={this.props.picture} height="200" alt="logo"/> */}
             </div>

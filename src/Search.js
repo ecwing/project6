@@ -142,12 +142,9 @@ class Search extends Component {
 
   render() {
     return (
-      <div className="mainSearch">
+      <div className="mainSearch wrapper">
 
-        {this.props.user ? 
-        <Link to="/dashboard">Go to Your Dashboard</Link>
-          : null
-        }
+       
         <Route
           path="/dashboard/"
           render=
@@ -163,9 +160,15 @@ class Search extends Component {
         <div className="mainSearchImg">
           <img src={require("./assets/Racoon.png")}/>
         </div>
+        <div className="downshiftContainer">
+          <div className="arrow">
+            {this.props.user ?
+              <Link to="/dashboard">View Dashboard
+              <img src={require("./assets/arrow.png")} /></Link>
+              : null
+            }
+          </div>
         <Downshift
-
-        
         onChange={selection => {
           if (selection === null) {
             return this.setState({ placeholder: 'Default' });
@@ -278,6 +281,7 @@ class Search extends Component {
               </div>
             )}
         </Downshift>
+        </div>
       </div> ) // end of render 
     }
 }
