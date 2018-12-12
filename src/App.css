@@ -37,11 +37,7 @@ header {
 .headerUser{
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 50px;
-  width: 50%;
-}
-header .buttons {
+  padding-right: 25px;
   width: 50%;
 }
 .userImage {
@@ -65,18 +61,28 @@ h2 {
   text-transform: capitalize;
 }
 
+header .buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 header button {
   background: #00702e;
   color: #ebf8e7;
   font-weight: bold;
-  margin: 0 30px;
-  width: 75%;
+   min-width: 150px;
+}
+
+header button:hover {
+  background: #709d6c;
 }
 /* HEADER STYLE ENDS */
 
 /* //SEARCH LIST STYLES */
 .routerDaddy{
-  padding-top: 25px;
+  /* padding-top: 25px; */
 }
 .dropDaddy {
   display: flex;
@@ -84,10 +90,50 @@ header button {
   justify-content: center;
   align-items: center;
   justify-content: flex-start;
-  width: 55%;
   /* height: 100vh; */
-
 }
+.downshiftContainer {
+  width: 55%;
+}
+.arrow {
+  display: flex;
+  justify-content: flex-end;
+}
+.arrow a img {
+  width: 10%;
+}
+.arrow a {
+ width: 300px;
+ display: flex;
+ align-items: center;
+ justify-content: flex-end;
+ text-decoration: none;
+ color: #3e3e3e;
+ font-weight: bold;
+ padding-top: 25px;
+}
+
+.arrowLeft {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.arrowLeft a {
+  width: 350px;
+ display: flex;
+ align-items: center;
+ justify-content: flex-start;
+ text-decoration: none;
+ color: #3e3e3e;
+ font-weight: bold;
+ padding-top: 25px;
+ padding-left: 10%;
+}
+
+.arrowLeft a img {
+  width: 15%;
+}
+
 .dropDaddy form {
   padding-top: 100px;
   display: flex; 
@@ -111,9 +157,14 @@ header button {
 
 .mainSearchImg {
   width: 40%;
+  display: flex;
+  align-items: flex-start;
+  padding: 25px 0;
+  justify-content: center;
 }
 .mainSearch img {
   width: 75%;
+
 }
 .mainSearch input {
   border-radius: 50px;
@@ -136,6 +187,10 @@ input:placeholder-shown{
   font-weight: bold;
   width: 200px;
 }
+.mainSearch  input[type='submit']:hover {
+  background: #709d6c;
+}
+
 .dropdown:active{
   border: 1px solid darkblue;
 }
@@ -149,13 +204,17 @@ input:placeholder-shown{
   align-items: center;
   justify-content: space-evenly;
   padding: 5px;
-  margin: 10px 0;
-  box-shadow: 0px 0px 3px grey;
+  margin: 10px 0 40px 0;
+  box-shadow: 0 4px 2px -2px grey;
+  background: #f4f4f4;
+  border-radius: 10px;
+  
 }
 .searchResults p {
   width: 60%;
-  padding-left:
+  /* padding-left: */
 }
+
 .searchResults img {
   width: 100px;
   padding-right: 20px;
@@ -176,13 +235,12 @@ input:placeholder-shown{
   border: 2px solid #00702e;
   text-align: center;
 }
-
 .LineApp {
   height: 500px;
   background: #f4f4f4;
 }
-.dashboard {
-  border:2px solid black;
+main {
+  background: #f4f4f4;
 }
 .dashboardAnon {
   width: 40%;
@@ -198,6 +256,7 @@ input:placeholder-shown{
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 25px 0;
 }
 
 .buttonBox {
@@ -241,14 +300,35 @@ input[type='submit']:focus {
 }
 
 /* //RANDOM TIP STYLES */
+.dailyTip {
+  padding: 50px 10px;
+  margin: 0 auto;
+  background: #ebf8e7;
+}
+.dailyTip h3 {
+  color: #3e3e3e;
+  text-transform: capitalize;
+}
+.dailyTip p {
+  color: black;
+  margin: 0 auto;
+  font-size: 2rem;
+  width: 50%;
+  padding-bottom: 20px;
+}
 .nextTip,
 .tweet {
-background-color: rgb(16,135,209);color: white;
+  background-color: #00702e;
+  color: white;
   border: 1px solid white;
- border-radius: 3px;
-    padding: 10px;
-    cursor: pointer;
-    outline: inherit;
+  border-radius: 50px;
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: inherit;
+}
+.nextTip:hover, .tweet:hover {
+  background:#709d6c;
 }
 /* END OF RANDOM TIP STYLES */
 
@@ -256,21 +336,31 @@ background-color: rgb(16,135,209);color: white;
 /* //MEDIA QUERIES */
 @media only screen and (max-width: 650px) {
   /* //HEADER MOBILE */
+  h1 {
+    font-size: 3rem;
+  }
   .profilePic {
     display: none;
   }
   .headerUser {
     padding-right: 5px;
+    flex-direction: column;
+    padding-right: 10px;
+    width: 100%;
   }
   header .buttons {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
+    font-size: 1.5rem;
   }
-  
-  .buttons button {
+
+  header .button {
+     min-width: 100px;
+  }
+  header button {
     margin-bottom: 5px;
-    font-size: 1
+
   }
   header h1 {
     padding-left: 10px;
@@ -295,10 +385,22 @@ background-color: rgb(16,135,209);color: white;
   .dropDaddy {
     width: 100%;
   }
+  .downshiftContainer {
+    width: 100%;
+  }
   .dropDaddy form {
     padding-top: 50px;
   }
   .searchResults p {
     width: 100%;
+  }
+
+
+  /* //daily tip styles */
+  .dailyTip{
+    margin: 0 auto;
+  }
+  .dailyTip p {
+    width: 80%;
   }
 }

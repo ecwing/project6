@@ -68,7 +68,7 @@ class Text extends Component {
     render() {
         return (
             <div className="center-div">
-                <h1>{this.props.title}</h1>
+                <h3>{this.props.title}</h3>
                 <p>{this.props.tip}</p>
             </div>
         )
@@ -87,8 +87,13 @@ class Buttons extends Component {
                 type="button"
                 className="nextTip"
                 onClick={this.props.handleNewTip}>New Tip</button> 
+<<<<<<< HEAD
                 <a target="_blank" href={`https://twitter.com/intent/tweet/?text= 🔥Hot ${this.props.title} ${this.props.tip}`}>
                 <button className="tweet">Tweet Daily Tip</button></a>   
+=======
+                <a target="_blank" href={`https://twitter.com/intent/tweet/?text= 🔥Hot Tip for ${this.props.title}: ${this.props.tip}`}>
+                <button className="tweet">Tweet Tip</button></a>   
+>>>>>>> df9892d11aac56224270670a6e92d6baa01beab2
             </div>
         )
     }

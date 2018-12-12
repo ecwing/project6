@@ -118,14 +118,18 @@ class App extends Component {
           <button id="signInGuest" onClick={this.anonLogIn}>Sign In as Guest</button> </>
           }
           </div>
+          
           <div className="userImage">
-          {this.state.user
-            ? 
-            <img className="profilePic" src={this.state.user.photoURL} height="50" alt="Google profile of user"/> 
-            : 
-            null 
-          }    
+            {this.state.user
+              ?
+              <img className="profilePic"
+                src={this.state.user.photoURL || require('./assets/personicon.png')}
+                height="50" alt="Google profile of user" />
+              :
+              null
+            }
           </div>
+
         </div>
       </header>
 
@@ -152,7 +156,9 @@ class App extends Component {
             />}
           />
         </div>
-      <DailyTip />
+        <div className="dailyTip">
+          <DailyTip />
+        </div>
       </div>
     </Router>
       
