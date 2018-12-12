@@ -5,8 +5,6 @@ import Downshift from 'downshift'
 import { BrowserRouter as Router, Route, NavLink, Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import { noAuto } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core'
 
 class Search extends Component {
   constructor() {
@@ -264,7 +262,6 @@ class Search extends Component {
                 ) : null}
 
                 <h2>{this.state.searchInput}</h2>
-                <FontAwesomeIcon icon="circle" />
 
                 {this.state.submitSearch.map(result => {
                   return (
