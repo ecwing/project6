@@ -37,11 +37,7 @@ header {
 .headerUser{
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 50px;
-  width: 50%;
-}
-header .buttons {
+  padding-right: 25px;
   width: 50%;
 }
 .userImage {
@@ -65,12 +61,22 @@ h2 {
   text-transform: capitalize;
 }
 
+header .buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 header button {
   background: #00702e;
   color: #ebf8e7;
   font-weight: bold;
-  margin: 0 30px;
-  width: 75%;
+   min-width: 150px;
+}
+
+header button:hover {
+  background: #709d6c;
 }
 /* HEADER STYLE ENDS */
 
@@ -113,7 +119,7 @@ header button {
 }
 
 .arrowLeft a {
-  width: 300px;
+  width: 350px;
  display: flex;
  align-items: center;
  justify-content: flex-start;
@@ -181,6 +187,10 @@ input:placeholder-shown{
   font-weight: bold;
   width: 200px;
 }
+.mainSearch  input[type='submit']:hover {
+  background: #709d6c;
+}
+
 .dropdown:active{
   border: 1px solid darkblue;
 }
@@ -202,8 +212,9 @@ input:placeholder-shown{
 }
 .searchResults p {
   width: 60%;
-  padding-left:
+  /* padding-left: */
 }
+
 .searchResults img {
   width: 100px;
   padding-right: 20px;
@@ -307,7 +318,7 @@ input[type='submit']:focus {
 }
 .nextTip,
 .tweet {
-  background-color: #86c1e8;
+  background-color: #00702e;
   color: white;
   border: 1px solid white;
   border-radius: 50px;
@@ -317,7 +328,7 @@ input[type='submit']:focus {
   outline: inherit;
 }
 .nextTip:hover, .tweet:hover {
-  background:#00702e;
+  background:#709d6c;
 }
 /* END OF RANDOM TIP STYLES */
 
@@ -325,21 +336,31 @@ input[type='submit']:focus {
 /* //MEDIA QUERIES */
 @media only screen and (max-width: 650px) {
   /* //HEADER MOBILE */
+  h1 {
+    font-size: 3rem;
+  }
   .profilePic {
     display: none;
   }
   .headerUser {
     padding-right: 5px;
+    flex-direction: column;
+    padding-right: 10px;
+    width: 100%;
   }
   header .buttons {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 1.5rem;
   }
-  
-  .buttons button {
+
+  header .button {
+     min-width: 100px;
+  }
+  header button {
     margin-bottom: 5px;
-    font-size: 1
+
   }
   header h1 {
     padding-left: 10px;

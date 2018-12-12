@@ -89,7 +89,7 @@ class Buttons extends Component {
                 className="nextTip"
                 onClick={this.props.handleNewTip}>New Tip</button> 
                 <a target="_blank" href={`https://twitter.com/intent/tweet/?text= 🔥Hot Tip for ${this.props.title}: ${this.props.tip}`}>
-                <button className="tweet">Tweet Daily Tip</button></a>   
+                <button className="tweet">Tweet Tip</button></a>   
             </div>
         )
     }
